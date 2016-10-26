@@ -10,7 +10,7 @@ class WidgetColumn extends BaseNode
     public function exposeAssets(AssetFactory $factory)
     {
         return [
-            $factory->css('css/grid.css')->dependsOn('css/bootstrap.css')
+            $factory->file('less', 'less/grid/grid.less', 'grid')
         ];
     }
 

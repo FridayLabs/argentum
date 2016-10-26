@@ -10,7 +10,7 @@ class WidgetContainer extends BaseNode
     public function exposeAssets(AssetFactory $factory)
     {
         return [
-            $factory->file('css/grid.css')->dependsOn('css/grid2.css')
+            $factory->file('less', 'less/grid/grid.less', 'grid')
         ];
     }
 

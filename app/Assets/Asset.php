@@ -1,23 +1,25 @@
 <?php
 
-namespace App\Assets\Asset;
+namespace App\Assets;
 
-use App\Assets\AssetFactory;
-use Assetic\Filter\HashableInterface;
+use App\Assets\Filter\BaseFilter;
 
-abstract class BaseAsset implements HashableInterface
+class Asset implements HashableInterface
 {
     protected $name;
     protected $sourcePath;
+    protected $targetPath;
     protected $filters = [];
+
     protected $content = false;
     protected $dependencies = [];
     protected $assetFactory;
 
-    public function __construct($name, $sourcePath, array $filters = [])
+    public function __construct($name, $sourcePath, $targetPath, array $filters = [])
     {
         $this->name = $name;
         $this->sourcePath = $sourcePath;
+        $this->targetPath = $targetPath;
         $this->filters = $filters;
     }
 
@@ -37,6 +39,11 @@ abstract class BaseAsset implements HashableInterface
         return $this->name;
     }
 
+    public function getSourcePath()
+    {
+        return $this->sourcePath;
+    }
+
     public function getContent()
     {
         if ($this->content === false) {
@@ -51,6 +58,9 @@ abstract class BaseAsset implements HashableInterface
         return $this;
     }
 
+    /**
+     * @return BaseFilter[]
+     */
     public function getFilters()
     {
         return $this->filters;
@@ -62,26 +72,37 @@ abstract class BaseAsset implements HashableInterface
         return $this;
     }
 
-    public function dependsOn($dependency, AssetFactory $assetFactory = null)
+    public function dependsOn($pattern, $sourcePath, $name = null, $filters = [], AssetFactory $assetFactory = null)
     {
-        if (!$dependency instanceof static) {
-            if ($assetFactory && !$this->assetFactory) {
-                $this->setAssetFactory($assetFactory);
-            } else {
-                $assetFactory = $this->getAssetFactory();
+        $dep = null;
+        if ($pattern instanceof static) {
+            $dep = $pattern;
+        } else {
+            foreach ([$assetFactory, $this->getAssetFactory()] as $factory) {
+                if ($factory->hasPattern($pattern)) {
+                    $dep = $factory->file($pattern, $sourcePath, $name, $filters);
+                    break;
+                }
             }
-            $dependency = $assetFactory->file($dependency);
         }
-        $this->dependencies[] = $dependency;
+        $this->dependencies[] = $dep;
         return $this;
     }
 
     /**
-     * @return BaseAsset[]
+     * @return Asset[]
      */
     public function getDependencies()
     {
         return $this->dependencies;
+    }
+
+    public function dump()
+    {
+        foreach ($this->getFilters() as $filter) {
+            $filter->dump($this);
+        }
+        return $this->getContent();
     }
 
     public function hash()
@@ -91,5 +112,16 @@ abstract class BaseAsset implements HashableInterface
             $hashArray[] = $filter->hash();
         }
         return implode('|', $hashArray);
+    }
+
+    public function getTargetPath()
+    {
+        $hash = substr(md5($this->hash()), 0, 7);
+        return str_replace('*', $hash, $this->targetPath);
+    }
+
+    public function outputTo($path)
+    {
+        $this->targetPath = $path;
     }
 }

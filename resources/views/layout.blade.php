@@ -3,7 +3,9 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="/static/grid.css">
+    @foreach($styles as $style)
+        <link rel="stylesheet" href="/static/{{ $style->getTargetPath() }}">
+    @endforeach
     <title>{{ $title }}</title>
 </head>
 <body>{!! $content !!}</body>

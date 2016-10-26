@@ -2,12 +2,12 @@
 
 namespace App\Assets\Filter;
 
-use App\Assets\Asset\BaseAsset;
-use Assetic\Filter\HashableInterface;
+use App\Assets\Asset;
+use App\Assets\HashableInterface;
 
 abstract class BaseFilter implements HashableInterface
 {
-    abstract public function dump(BaseAsset $asset);
+    abstract public function dump(Asset $asset);
 
     public function hash()
     {

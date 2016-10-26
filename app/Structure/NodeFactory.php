@@ -3,7 +3,7 @@
 namespace App\Structure;
 
 use App\Structure\Node\BaseNode;
-use App\Structure\Node\Content\WidgetParagraph;
+use App\Structure\Node\Typography\WidgetParagraph;
 use App\Structure\Node\Grid\WidgetColumn;
 use App\Structure\Node\Grid\WidgetContainer;
 use App\Structure\Node\Grid\WidgetRow;

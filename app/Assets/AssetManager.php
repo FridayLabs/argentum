@@ -2,14 +2,12 @@
 
 namespace App\Assets;
 
-use App\Assets\Asset\BaseAsset;
-
 class AssetManager
 {
     protected $assets = [];
     protected $namedAssets = [];
 
-    public function addAsset(BaseAsset $asset)
+    public function addAsset(Asset $asset)
     {
         $this->assets[$asset->hash()] = $asset;
         $this->namedAssets[$asset->getName()] = $asset;
@@ -37,18 +35,34 @@ class AssetManager
         }
     }
 
-
-    public function getAssets()
+    /**
+     * @param bool $sorted
+     * @return Asset[]
+     */
+    public function getAssets($sorted = true)
     {
-
-        $assets = $this->sortAssets($this->assets);
+        return $sorted ? $this->sortAssets($this->assets) : $this->assets;
     }
 
+    public function getStyles($sorted = true)
+    {
+        $assets = $this->getAssets($sorted);
+        return array_filter($assets, function (Asset $asset) {
+            return ends_with($asset->getTargetPath(), '.css');
+        });
+    }
+
+    public function getScripts($sorted = true)
+    {
+        $assets = $this->getAssets($sorted);
+        return array_filter($assets, function (Asset $asset) {
+            return ends_with($asset->getTargetPath(), '.js');
+        });
+    }
 
     protected function sortAssets($assets)
     {
         $result = [];
-
         foreach ($assets as $asset) {
             $stack = [$asset->hash()];
             while ($stack) {
@@ -60,11 +74,13 @@ class AssetManager
                     }
                     $stack[] = $depHash;
                 }
-                if (!isset($result[$assetHash])) {
+                if (!in_array($assetHash, $result)) {
                     $result[] = $assetHash;
                 }
             }
         }
-        return $result;
+        return array_map(function ($hash) {
+            return $this->assets[$hash];
+        }, array_reverse($result));
     }
 }

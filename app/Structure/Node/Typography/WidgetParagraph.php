@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Structure\Node\Content;
+namespace App\Structure\Node\Typography;
 
 use App\Structure\Node\BaseNode;
 

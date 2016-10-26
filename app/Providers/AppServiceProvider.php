@@ -2,8 +2,8 @@
 
 namespace App\Providers;
 
-use App\Assets\Asset\CssFileAsset;
-use App\Assets\Filter\CssMinFilter;
+use App\Assets\AssetPattern;
+use App\Assets\Filter\LessFilter;
 use App\Assets\AssetFactory;
 use App\Assets\FilterManager;
 use Illuminate\Support\ServiceProvider;
@@ -14,13 +14,13 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind('filterManager', function () {
             $manager = new FilterManager();
-            $manager->set('css_min', new CssMinFilter);
-            $manager->setFiltersForType(CssFileAsset::class, ['css_min']);
+            $manager->set('less', new LessFilter);
             return $manager;
         });
         $this->app->bind('assetFactory', function () {
             $factory = new AssetFactory(resource_path('assets'));
             $factory->setFilterManager(app('filterManager'));
+            $factory->setPattern('less', new AssetPattern('css/*.css', ['less']));
             return $factory;
         });
     }

@@ -10,7 +10,7 @@ class WidgetRow extends BaseNode
     public function exposeAssets(AssetFactory $factory)
     {
         return [
-            $factory->fileAsset('css/grid.css')
+            $factory->file('less', 'less/grid/grid.less', 'grid')
         ];
     }
 

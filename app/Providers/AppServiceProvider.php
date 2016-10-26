@@ -2,36 +2,24 @@
 
 namespace App\Providers;
 
-use Assetic\AssetManager;
-use Assetic\AssetWriter;
-use Assetic\Factory\AssetFactory;
-use Assetic\Filter\LessphpFilter;
-use Assetic\FilterManager;
+use App\Assets\Asset\CssFileAsset;
+use App\Assets\Filter\CssMinFilter;
+use App\Assets\AssetFactory;
+use App\Assets\FilterManager;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
     public function register()
     {
-        $this->app->bind('assetManager', function () {
-            $manager = new AssetManager();
-            return $manager;
-        });
-
         $this->app->bind('filterManager', function () {
             $manager = new FilterManager();
-            $manager->set('less', new LessphpFilter);
+            $manager->set('css_min', new CssMinFilter);
+            $manager->setFiltersForType(CssFileAsset::class, ['css_min']);
             return $manager;
         });
-
-        $this->app->bind('assetWriter', function () {
-            $writer = new AssetWriter(base_path('public/static'));
-            return $writer;
-        });
-
         $this->app->bind('assetFactory', function () {
-            $factory = new AssetFactory(resource_path());
-            $factory->setAssetManager(app('assetManager'));
+            $factory = new AssetFactory(resource_path('assets'));
             $factory->setFilterManager(app('filterManager'));
             return $factory;
         });

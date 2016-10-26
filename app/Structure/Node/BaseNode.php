@@ -2,6 +2,7 @@
 
 namespace App\Structure\Node;
 
+use App\Assets\AssetFactory;
 use App\Config;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -55,6 +56,7 @@ class BaseNode implements Arrayable, Jsonable
     public function addChild(BaseNode $child)
     {
         $this->children[] = $child;
+        $child->setParent($this);
     }
 
     /**
@@ -93,11 +95,11 @@ class BaseNode implements Arrayable, Jsonable
         return $childrenContent;
     }
 
-    public function exposeAssets()
+    public function exposeAssets(AssetFactory $factory)
     {
         $assets = [];
         foreach ($this->getChildren() as $child) {
-            $assets = array_merge($assets, $child->exposeAssets());
+            $assets = array_merge($assets, $child->exposeAssets($factory));
         }
         return $assets;
     }

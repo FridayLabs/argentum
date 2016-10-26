@@ -2,11 +2,18 @@
 
 namespace App\Structure\Node\Grid;
 
-use App\Asset\LessFileAsset;
+use App\Assets\AssetFactory;
 use App\Structure\Node\BaseNode;
 
 class WidgetContainer extends BaseNode
 {
+    public function exposeAssets(AssetFactory $factory)
+    {
+        return [
+            $factory->file('css/grid.css')->dependsOn('css/grid2.css')
+        ];
+    }
+
     public function toHtml()
     {
         $childrenContent = parent::toHtml();

@@ -2,6 +2,9 @@
 
 namespace App\Structure;
 
+use App\Assets\AssetFactory;
+use App\Assets\AssetsContainer;
+use App\Assets\FileAsset;
 use App\Structure\Node\BaseNode;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -41,7 +44,6 @@ class Structure implements Arrayable, Jsonable
             if ($nodeData['type'] === 'system-content') {
                 $this->contentSlot = $node;
             }
-            $node->setParent($parent);
             $parent->addChild($node);
             if (isset($nodeData['children'])) {
                 $this->initTree($nodeData['children'], $node);
@@ -70,13 +72,14 @@ class Structure implements Arrayable, Jsonable
         return $this->tree->toArray();
     }
 
-    public function getAssets()
-    {
-        return $this->tree->exposeAssets();
-    }
-
     public function toHtml()
     {
         return $this->tree->toHtml();
+    }
+
+    public function getAssets()
+    {
+        $factory = app('assetFactory');
+        return $this->tree->exposeAssets($factory);
     }
 }

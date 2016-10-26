@@ -19,12 +19,9 @@ class Controller extends BaseController
          */
         $structure = $page->getStructureWithLayout();
 
-        $am = new AssetManager();
-        foreach ($structure->getAssets() as $name => $asset) {
-            $am->set($name, $asset);
-        }
-        $aw = new AssetWriter(base_path('public'));
-        $aw->writeManagerAssets($am);
+        $assets = $structure->getAssets();
+        $manager = new \App\Assets\AssetManager();
+        $assets = $manager->addAssets($assets)->getAssets();
 
         return view('layout', [
             'title' => $page->title,

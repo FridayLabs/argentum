@@ -3,8 +3,6 @@
 namespace App\Structure;
 
 use App\Assets\AssetFactory;
-use App\Assets\AssetsContainer;
-use App\Assets\FileAsset;
 use App\Structure\Node\BaseNode;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
@@ -49,6 +47,7 @@ class Structure implements Arrayable, Jsonable
                 $this->initTree($nodeData['children'], $node);
             }
         }
+
         return $parent;
     }
 

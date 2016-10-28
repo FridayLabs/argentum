@@ -14,6 +14,7 @@ class AssetManager
             $this->namedAssets[$asset->name()] = $asset;
             $this->addAssets($asset->dependencies());
         }
+
         return $this;
     }
 
@@ -22,6 +23,7 @@ class AssetManager
         foreach ($assets as $asset) {
             $this->addAsset($asset);
         }
+
         return $this;
     }
 
@@ -39,17 +41,20 @@ class AssetManager
 
     /**
      * @param bool $sorted
+     *
      * @return Asset[]
      */
     public function assets($sorted = true)
     {
         array_map([$this, 'resolveDependencies'], $this->assets);
+
         return $sorted ? $this->sortAssets($this->assets) : $this->assets;
     }
 
     public function styles($sorted = true)
     {
         $assets = $this->assets($sorted);
+
         return array_filter($assets, function (Asset $asset) {
             return ends_with($asset->targetPath(), '.css');
         });
@@ -58,6 +63,7 @@ class AssetManager
     public function scripts($sorted = true)
     {
         $assets = $this->assets($sorted);
+
         return array_filter($assets, function (Asset $asset) {
             return ends_with($asset->targetPath(), '.js');
         });
@@ -71,7 +77,7 @@ class AssetManager
                     if ($this->has($dependency)) {
                         $asset->resolveDependency($dependency, $this->get($dependency));
                     } else {
-                        throw new \Exception('Unknown dependency ' . $dependency);
+                        throw new \Exception('Unknown dependency '.$dependency);
                     }
                 } else {
                     $this->resolveDependencies($dependency);
@@ -88,6 +94,7 @@ class AssetManager
                 $this->visit($asset, $sorted, $visited);
             }
         }
+
         return $sorted;
     }
 

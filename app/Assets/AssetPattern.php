@@ -11,7 +11,7 @@ class AssetPattern
     public function __construct($targetPath, $filters = [], array $options = [])
     {
         $this->targetPath = $targetPath;
-        $this->filters = (array)$filters;
+        $this->filters = (array) $filters;
         $this->options = $options;
     }
 

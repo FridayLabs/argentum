@@ -18,6 +18,7 @@ class WidgetParagraph extends BaseNode
     {
         $childrenContent = parent::toHtml();
         $content = array_get($this->getConfig(), 'content', '');
+
         return "<p>{$content}{$childrenContent}</p>";
     }
 }

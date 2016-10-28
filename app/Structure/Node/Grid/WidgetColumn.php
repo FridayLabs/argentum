@@ -10,7 +10,7 @@ class WidgetColumn extends BaseNode
     public function getAssets(AssetFactory $factory)
     {
         return [
-            $factory->file('less', 'grid/column.less')->dependsOn('less', 'grid/utils.less')
+            $factory->file('less', 'grid/column.less')->dependsOn('less', 'grid/utils.less'),
         ];
     }
 
@@ -32,6 +32,7 @@ class WidgetColumn extends BaseNode
         }
 
         $classes = implode(' ', $classes);
+
         return "<div class='{$classes}'>{$childrenContent}</div>";
     }
 }

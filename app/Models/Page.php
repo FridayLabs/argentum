@@ -19,6 +19,7 @@ class Page extends Model
         $layout = clone $this->layout->structure;
         $slot = $layout->getContentSlot();
         array_map([$slot, 'addChild'], $this->structure->getTree()->getChildren());
+
         return $layout;
     }
 }

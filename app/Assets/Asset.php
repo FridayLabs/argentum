@@ -26,6 +26,7 @@ class Asset implements HashableInterface
     public function setAssetFactory(AssetFactory $factory)
     {
         $this->assetFactory = $factory;
+
         return $this;
     }
 
@@ -52,12 +53,14 @@ class Asset implements HashableInterface
         if ($this->content === false) {
             $this->content = file_get_contents($this->sourcePath);
         }
+
         return $this->content;
     }
 
     public function setContent($content)
     {
         $this->content = $content;
+
         return $this;
     }
 
@@ -72,6 +75,7 @@ class Asset implements HashableInterface
     public function setFilters(array $filters = [])
     {
         $this->filters = $filters;
+
         return $this;
     }
 
@@ -80,6 +84,7 @@ class Asset implements HashableInterface
         // ->(new Asset(...))
         if ($pattern instanceof static) {
             $this->dependencies[] = $pattern;
+
             return $this;
         }
 
@@ -87,6 +92,7 @@ class Asset implements HashableInterface
         foreach ([$assetFactory, $this->assetFactory()] as $factory) {
             if ($factory && $factory->hasPattern($pattern)) {
                 $this->dependencies[] = $factory->file($pattern, $sourcePath, $name, $filters);
+
                 return $this;
             }
         }
@@ -98,7 +104,8 @@ class Asset implements HashableInterface
         }
         foreach ([$assetFactory, $this->assetFactory()] as $factory) {
             if ($factory) {
-                $this->dependencies[] = (string)$pattern;
+                $this->dependencies[] = (string) $pattern;
+
                 return $this;
             }
         }
@@ -128,6 +135,7 @@ class Asset implements HashableInterface
         foreach ($this->filters() as $filter) {
             $filter->dump($this);
         }
+
         return $this->content();
     }
 
@@ -137,12 +145,14 @@ class Asset implements HashableInterface
         foreach ($this->filters as $filter) {
             $hashArray[] = $filter->hash();
         }
+
         return implode('|', $hashArray);
     }
 
     public function targetPath()
     {
         $hash = substr(md5($this->hash()), 0, 7);
+
         return str_replace('*', $hash, $this->targetPath);
     }
 

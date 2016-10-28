@@ -6,16 +6,14 @@ use App\Assets\AssetManager;
 use App\Jobs\AssetsCompilationJob;
 use App\Models\Page;
 use App\Structure\Structure;
-use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\Controller as BaseController;
-
 
 class Controller extends BaseController
 {
     public function displayPage(Page $page)
     {
         /**
-         * @var $structure Structure
+         * @var Structure
          */
         $structure = $page->getStructureWithLayout();
 
@@ -24,9 +22,9 @@ class Controller extends BaseController
         dispatch(new AssetsCompilationJob($page));
 
         return view('layout', [
-            'title' => $page->title,
+            'title'   => $page->title,
             'content' => $structure->toHtml(),
-            'styles' => $manager->styles()
+            'styles'  => $manager->styles(),
         ]);
     }
 }

@@ -23,7 +23,7 @@ class LoadRoutes
                 'as' => $page->alias,
                 function () use ($request, $page) {
                     $controller = app()->make(Controller::class);
-                    return $controller->displayPage($request, $page);
+                    return $controller->displayPage($page);
                 }
             ]);
         }

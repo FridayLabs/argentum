@@ -63,7 +63,7 @@ class AssetFactory
         }
 
         $resultFilters = [];
-        foreach (array_merge($pattern->getFilters(), $filters) as $filter) {
+        foreach (array_merge($pattern->filters(), $filters) as $filter) {
             if (!$filter instanceof BaseFilter) {
                 $filter = $this->filterManager()->get($filter);
             }
@@ -71,7 +71,7 @@ class AssetFactory
                 $resultFilters[] = $filter;
             }
         }
-        $asset = new Asset($name, $fullSourcePath, $pattern->getTargetPath(), $resultFilters);
+        $asset = new Asset($name, $fullSourcePath, $pattern->targetPath(), $resultFilters);
         $asset->setAssetFactory($this);
         return $asset;
     }

@@ -9,29 +9,20 @@ try {
     //
 }
 
-$app = new Laravel\Lumen\Application(
-    realpath(__DIR__ . '/../')
-);
-
-//$app->withFacades();
-$app->withEloquent();
+$app = new Laravel\Lumen\Application(realpath(__DIR__ . '/../'));
 
 $app->singleton(Illuminate\Contracts\Debug\ExceptionHandler::class, App\Exceptions\Handler::class);
-
 $app->singleton(Illuminate\Contracts\Console\Kernel::class, App\Console\Kernel::class);
 
-$app->middleware([
-    App\Http\Middleware\Homepage::class,
-    App\Http\Middleware\LoadRoutes::class
-]);
+$app->withEloquent();
 
-$app->routeMiddleware([
-    'auth' => App\Http\Middleware\Authenticate::class,
-]);
+$app->configure('app');
+$app->middleware(config('app.middlewares', []));
+$app->routeMiddleware(config('app.routeMiddlewares', []));
+foreach (config('app.providers', []) as $provider) {
+    $app->register($provider);
+}
 
-$app->register(App\Providers\SpacelessBladeDirectiveProvider::class);
-$app->register(App\Providers\AppServiceProvider::class);
-// $app->register(App\Providers\AuthServiceProvider::class);
-// $app->register(App\Providers\EventServiceProvider::class);
+$app->configure('extensions');
 
 return $app;

@@ -17,9 +17,12 @@ class AssetsCompilationJob extends Job
 
     public function handle()
     {
-        $manager = new AssetManager();
-        $manager->addAssets($this->page->structure->getAssets());
+        $manager = app()->make(AssetManager::class);
+        $structure = $this->page->getStructureWithLayout();
+        $manager->addAssets($structure->assets());
         $writer = new FilesystemAssetWriter(base_path('public/static'));
         $writer->writeManagerAssets($manager);
+
+        dispatch(new CriticalCssCompilationJob($this->page));
     }
 }

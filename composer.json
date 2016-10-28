@@ -13,7 +13,8 @@
         "laravel/lumen-framework": "5.3.*",
         "vlucas/phpdotenv": "~2.2",
         "mrclay/minify": "^2.3",
-        "mishal/iless": "^2.2"
+        "mishal/iless": "^2.2",
+        "bower-asset/normalize.css": "^5.0"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

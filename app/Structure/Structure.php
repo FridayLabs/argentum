@@ -77,9 +77,8 @@ class Structure implements Arrayable, Jsonable
         return $this->tree->toHtml();
     }
 
-    public function getAssets()
+    public function assets()
     {
-        $factory = app('assetFactory');
-        return $this->tree->collectAssets($factory);
+        return $this->tree->collectAssets(app()->make(AssetFactory::class));
     }
 }

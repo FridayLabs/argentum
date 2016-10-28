@@ -18,7 +18,7 @@ class AssetPattern
     /**
      * @return mixed
      */
-    public function getTargetPath()
+    public function targetPath()
     {
         return $this->targetPath;
     }
@@ -34,7 +34,7 @@ class AssetPattern
     /**
      * @return array
      */
-    public function getFilters()
+    public function filters()
     {
         return $this->filters;
     }
@@ -45,21 +45,5 @@ class AssetPattern
     public function setFilters($filters)
     {
         $this->filters = $filters;
-    }
-
-    /**
-     * @return array
-     */
-    public function getOptions()
-    {
-        return $this->options;
-    }
-
-    /**
-     * @param array $options
-     */
-    public function setOptions($options)
-    {
-        $this->options = $options;
     }
 }

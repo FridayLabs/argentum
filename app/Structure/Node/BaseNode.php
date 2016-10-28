@@ -97,7 +97,9 @@ class BaseNode implements Arrayable, Jsonable
 
     public function getAssets(AssetFactory $factory)
     {
-        return [];
+        return [
+            $factory->file('css', vendor_path('bower-asset/normalize.css/normalize.css'), 'normalize')
+        ];
     }
 
     public function collectAssets(AssetFactory $factory)

@@ -12,7 +12,7 @@ use Laravel\Lumen\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-    public function displayPage(Request $request, Page $page)
+    public function displayPage(Page $page)
     {
         /**
          * @var $structure Structure
@@ -20,8 +20,7 @@ class Controller extends BaseController
         $structure = $page->getStructureWithLayout();
 
         $manager = new AssetManager();
-        $manager->addAssets($structure->getAssets());
-
+        $manager->addAssets($structure->assets());
         dispatch(new AssetsCompilationJob($page));
 
         return view('layout', [

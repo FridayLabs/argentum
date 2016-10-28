@@ -4,8 +4,24 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4bf45c45175ab1ca2858d2351891fc7f",
+    "content-hash": "bc6368da694af7eae820a1a47c064fae",
     "packages": [
+        {
+            "name": "bower-asset/normalize.css",
+            "version": "5.0.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/necolas/normalize.css.git",
+                "reference": "f06565fe8e0e1ad1b88f2732719e28ed97bde40f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/necolas/normalize.css/zipball/f06565fe8e0e1ad1b88f2732719e28ed97bde40f",
+                "reference": "f06565fe8e0e1ad1b88f2732719e28ed97bde40f",
+                "shasum": null
+            },
+            "type": "library"
+        },
         {
             "name": "doctrine/inflector",
             "version": "v1.1.0",

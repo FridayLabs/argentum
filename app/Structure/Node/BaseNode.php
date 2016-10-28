@@ -78,6 +78,7 @@ class BaseNode implements Arrayable, Jsonable
         foreach ($this->getChildren() as $child) {
             $self['children'][] = $child->toArray();
         }
+
         return $self;
     }
 
@@ -92,13 +93,14 @@ class BaseNode implements Arrayable, Jsonable
         foreach ($this->getChildren() as $child) {
             $childrenContent .= $child->toHtml();
         }
+
         return $childrenContent;
     }
 
     public function getAssets(AssetFactory $factory)
     {
         return [
-            $factory->file('css', vendor_path('bower-asset/normalize.css/normalize.css'), 'normalize')
+            $factory->file('css', vendor_path('bower-asset/normalize.css/normalize.css'), 'normalize'),
         ];
     }
 
@@ -108,6 +110,7 @@ class BaseNode implements Arrayable, Jsonable
         foreach ($this->getChildren() as $child) {
             $assets = array_merge($assets, $child->collectAssets($factory));
         }
+
         return $assets;
     }
 }

@@ -10,13 +10,14 @@ class WidgetRow extends BaseNode
     public function getAssets(AssetFactory $factory)
     {
         return [
-            $factory->file('less', 'grid/row.less')->dependsOn('grid/utils.less')
+            $factory->file('less', 'grid/row.less')->dependsOn('grid/utils.less'),
         ];
     }
 
     public function toHtml()
     {
         $childrenContent = parent::toHtml();
+
         return "<div class='row'>{$childrenContent}</div>";
     }
 }

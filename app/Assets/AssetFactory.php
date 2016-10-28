@@ -48,7 +48,7 @@ class AssetFactory
     public function file($pattern, $sourcePath, $name = null, $filters = [])
     {
         $name = $name ?: $sourcePath;
-        $fullSourcePath = realpath(!starts_with($sourcePath, '/') ? $this->assetsDir . '/' . $sourcePath : $sourcePath);
+        $fullSourcePath = realpath(!starts_with($sourcePath, '/') ? $this->assetsDir.'/'.$sourcePath : $sourcePath);
         if (!file_exists($fullSourcePath)) {
             throw new \Exception("Source {$sourcePath} is not exists");
         }
@@ -73,6 +73,7 @@ class AssetFactory
         }
         $asset = new Asset($name, $fullSourcePath, $pattern->targetPath(), $resultFilters);
         $asset->setAssetFactory($this);
+
         return $asset;
     }
 }

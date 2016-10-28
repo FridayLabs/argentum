@@ -9,6 +9,7 @@ class WidgetHeader extends BaseNode
     public function toHtml()
     {
         $childrenContent = parent::toHtml();
+
         return "<header>{$childrenContent}</header>";
     }
 }

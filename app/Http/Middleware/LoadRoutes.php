@@ -2,16 +2,17 @@
 
 namespace App\Http\Middleware;
 
-use App\Models\Page;
 use App\Http\Controllers\Controller;
+use App\Models\Page;
 
 class LoadRoutes
 {
     /**
-     * Finds page in db and registers route
+     * Finds page in db and registers route.
      *
-     * @param  \Illuminate\Http\Request $request
-     * @param  \Closure $next
+     * @param \Illuminate\Http\Request $request
+     * @param \Closure                 $next
+     *
      * @return mixed
      */
     public function handle($request, \Closure $next)
@@ -19,14 +20,16 @@ class LoadRoutes
         $pages = Page::all();
         foreach ($pages as $page) {
             $alias = $page->alias === 'index' ? '' : $page->alias;
-            app()->get('/' . $alias, [
+            app()->get('/'.$alias, [
                 'as' => $page->alias,
                 function () use ($request, $page) {
                     $controller = app()->make(Controller::class);
+
                     return $controller->displayPage($page);
-                }
+                },
             ]);
         }
+
         return $next($request);
     }
 }

@@ -9,6 +9,7 @@ class WidgetFooter extends BaseNode
     public function toHtml()
     {
         $childrenContent = parent::toHtml();
+
         return "<footer>{$childrenContent}</footer>";
     }
 }

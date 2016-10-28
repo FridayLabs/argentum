@@ -10,7 +10,7 @@ class WidgetContainer extends BaseNode
     public function getAssets(AssetFactory $factory)
     {
         return [
-            $factory->file('less', 'grid/container.less')
+            $factory->file('less', 'grid/container.less'),
         ];
     }
 
@@ -18,7 +18,8 @@ class WidgetContainer extends BaseNode
     {
         $childrenContent = parent::toHtml();
         $isFullWidth = array_get($this->getConfig(), 'isFullWidth', false);
-        $class = 'container' . ($isFullWidth ? '-fluid' : '');
+        $class = 'container'.($isFullWidth ? '-fluid' : '');
+
         return "<div class='{$class}'>{$childrenContent}</div>";
     }
 }

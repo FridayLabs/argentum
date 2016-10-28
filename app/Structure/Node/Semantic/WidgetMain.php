@@ -9,6 +9,7 @@ class WidgetMain extends BaseNode
     public function toHtml()
     {
         $childrenContent = parent::toHtml();
+
         return "<main>{$childrenContent}</main>";
     }
 }

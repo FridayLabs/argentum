@@ -95,11 +95,16 @@ class BaseNode implements Arrayable, Jsonable
         return $childrenContent;
     }
 
-    public function exposeAssets(AssetFactory $factory)
+    public function getAssets(AssetFactory $factory)
     {
-        $assets = [];
+        return [];
+    }
+
+    public function collectAssets(AssetFactory $factory)
+    {
+        $assets = $this->getAssets($factory);
         foreach ($this->getChildren() as $child) {
-            $assets = array_merge($assets, $child->exposeAssets($factory));
+            $assets = array_merge($assets, $child->collectAssets($factory));
         }
         return $assets;
     }

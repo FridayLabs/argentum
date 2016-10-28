@@ -2,9 +2,6 @@
 
 namespace App\Assets;
 
-use App\Assets\Asset\BaseAsset;
-use App\Assets\Asset\CssFileAsset;
-use App\Assets\Asset\LessFileAsset;
 use App\Assets\Filter\BaseFilter;
 
 class AssetFactory
@@ -21,12 +18,14 @@ class AssetFactory
      */
     protected $filterManager;
 
+    protected static $cache = [];
+
     public function __construct($assetsDir)
     {
         $this->assetsDir = $assetsDir;
     }
 
-    public function getFilterManager()
+    public function filterManager()
     {
         return $this->filterManager;
     }
@@ -66,7 +65,7 @@ class AssetFactory
         $resultFilters = [];
         foreach (array_merge($pattern->getFilters(), $filters) as $filter) {
             if (!$filter instanceof BaseFilter) {
-                $filter = $this->getFilterManager()->get($filter);
+                $filter = $this->filterManager()->get($filter);
             }
             if ($filter) {
                 $resultFilters[] = $filter;

@@ -7,10 +7,10 @@ use App\Structure\Node\BaseNode;
 
 class WidgetColumn extends BaseNode
 {
-    public function exposeAssets(AssetFactory $factory)
+    public function getAssets(AssetFactory $factory)
     {
         return [
-            $factory->file('less', 'less/grid/grid.less', 'grid')
+            $factory->file('less', 'grid/column.less')->dependsOn('less', 'grid/utils.less')
         ];
     }
 

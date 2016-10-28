@@ -80,6 +80,6 @@ class Structure implements Arrayable, Jsonable
     public function getAssets()
     {
         $factory = app('assetFactory');
-        return $this->tree->exposeAssets($factory);
+        return $this->tree->collectAssets($factory);
     }
 }

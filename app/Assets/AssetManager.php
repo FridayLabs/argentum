@@ -7,11 +7,13 @@ class AssetManager
     protected $assets = [];
     protected $namedAssets = [];
 
-    public function addAsset(Asset $asset)
+    public function addAsset($asset)
     {
-        $this->assets[$asset->hash()] = $asset;
-        $this->namedAssets[$asset->getName()] = $asset;
-        $this->addAssets($asset->getDependencies());
+        if ($asset instanceof Asset) {
+            $this->assets[$asset->hash()] = $asset;
+            $this->namedAssets[$asset->name()] = $asset;
+            $this->addAssets($asset->dependencies());
+        }
         return $this;
     }
 
@@ -39,48 +41,69 @@ class AssetManager
      * @param bool $sorted
      * @return Asset[]
      */
-    public function getAssets($sorted = true)
+    public function assets($sorted = true)
     {
+        array_map([$this, 'resolveDependencies'], $this->assets);
         return $sorted ? $this->sortAssets($this->assets) : $this->assets;
     }
 
-    public function getStyles($sorted = true)
+    public function styles($sorted = true)
     {
-        $assets = $this->getAssets($sorted);
+        $assets = $this->assets($sorted);
         return array_filter($assets, function (Asset $asset) {
-            return ends_with($asset->getTargetPath(), '.css');
+            return ends_with($asset->targetPath(), '.css');
         });
     }
 
-    public function getScripts($sorted = true)
+    public function scripts($sorted = true)
     {
-        $assets = $this->getAssets($sorted);
+        $assets = $this->assets($sorted);
         return array_filter($assets, function (Asset $asset) {
-            return ends_with($asset->getTargetPath(), '.js');
+            return ends_with($asset->targetPath(), '.js');
         });
+    }
+
+    protected function resolveDependencies($asset)
+    {
+        if ($dependencies = $asset->dependencies()) {
+            foreach ($dependencies as $dependency) {
+                if (is_string($dependency)) {
+                    if ($this->has($dependency)) {
+                        $asset->resolveDependency($dependency, $this->get($dependency));
+                    } else {
+                        throw new \Exception('Unknown dependency ' . $dependency);
+                    }
+                } else {
+                    $this->resolveDependencies($dependency);
+                }
+            }
+        }
     }
 
     protected function sortAssets($assets)
     {
-        $result = [];
+        $sorted = $visited = [];
         foreach ($assets as $asset) {
-            $stack = [$asset->hash()];
-            while ($stack) {
-                $assetHash = array_pop($stack);
-                foreach ($this->assets[$assetHash]->getDependencies() as $dependency) {
-                    $depHash = $dependency->hash();
-                    if (in_array($depHash, $stack)) {
-                        throw new \Exception('Cycle dependency on ' . $dependency->getName());
-                    }
-                    $stack[] = $depHash;
-                }
-                if (!in_array($assetHash, $result)) {
-                    $result[] = $assetHash;
-                }
+            if (!isset($visited[$asset->hash()])) {
+                $this->visit($asset, $sorted, $visited);
             }
         }
-        return array_map(function ($hash) {
-            return $this->assets[$hash];
-        }, array_reverse($result));
+        return $sorted;
+    }
+
+    protected function visit($asset, &$sorted, &$marked)
+    {
+        $hash = $asset->hash();
+        if (isset($marked[$hash])) {
+            throw new \Exception('Circular dependency');
+        }
+        $marked[$hash] = true;
+        foreach ($asset->dependencies() as $dependency) {
+            $this->visit($dependency, $sorted, $marked);
+        }
+        unset($marked[$hash]);
+        if (!isset($sorted[$hash])) {
+            $sorted[$hash] = $asset;
+        }
     }
 }

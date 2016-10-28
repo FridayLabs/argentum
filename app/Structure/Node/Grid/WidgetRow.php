@@ -7,10 +7,10 @@ use App\Structure\Node\BaseNode;
 
 class WidgetRow extends BaseNode
 {
-    public function exposeAssets(AssetFactory $factory)
+    public function getAssets(AssetFactory $factory)
     {
         return [
-            $factory->file('less', 'less/grid/grid.less', 'grid')
+            $factory->file('less', 'grid/row.less')->dependsOn('grid/utils.less')
         ];
     }
 

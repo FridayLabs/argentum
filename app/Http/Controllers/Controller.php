@@ -27,7 +27,7 @@ class Controller extends BaseController
         return view('layout', [
             'title' => $page->title,
             'content' => $structure->toHtml(),
-            'styles' => $manager->getStyles()
+            'styles' => $manager->styles()
         ]);
     }
 }

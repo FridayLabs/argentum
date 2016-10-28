@@ -2,10 +2,18 @@
 
 namespace App\Structure\Node\Typography;
 
+use App\Assets\AssetFactory;
 use App\Structure\Node\BaseNode;
 
 class WidgetParagraph extends BaseNode
 {
+    public function getAssets(AssetFactory $factory)
+    {
+        return [
+
+        ];
+    }
+
     public function toHtml()
     {
         $childrenContent = parent::toHtml();

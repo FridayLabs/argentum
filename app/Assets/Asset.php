@@ -29,22 +29,25 @@ class Asset implements HashableInterface
         return $this;
     }
 
-    public function getAssetFactory()
+    /**
+     * @return AssetFactory
+     */
+    public function assetFactory()
     {
         return $this->assetFactory;
     }
 
-    public function getName()
+    public function name()
     {
         return $this->name;
     }
 
-    public function getSourcePath()
+    public function sourcePath()
     {
         return $this->sourcePath;
     }
 
-    public function getContent()
+    public function content()
     {
         if ($this->content === false) {
             $this->content = file_get_contents($this->sourcePath);
@@ -61,7 +64,7 @@ class Asset implements HashableInterface
     /**
      * @return BaseFilter[]
      */
-    public function getFilters()
+    public function filters()
     {
         return $this->filters;
     }
@@ -72,37 +75,60 @@ class Asset implements HashableInterface
         return $this;
     }
 
-    public function dependsOn($pattern, $sourcePath, $name = null, $filters = [], AssetFactory $assetFactory = null)
+    public function dependsOn($pattern, $sourcePath = null, $name = null, $filters = [], AssetFactory $assetFactory = null)
     {
-        $dep = null;
+        // ->(new Asset(...))
         if ($pattern instanceof static) {
-            $dep = $pattern;
-        } else {
-            foreach ([$assetFactory, $this->getAssetFactory()] as $factory) {
-                if ($factory->hasPattern($pattern)) {
-                    $dep = $factory->file($pattern, $sourcePath, $name, $filters);
-                    break;
-                }
+            $this->dependencies[] = $pattern;
+            return $this;
+        }
+
+        // ->('less', 'source', ...)
+        foreach ([$assetFactory, $this->assetFactory()] as $factory) {
+            if ($factory && $factory->hasPattern($pattern)) {
+                $this->dependencies[] = $factory->file($pattern, $sourcePath, $name, $filters);
+                return $this;
             }
         }
-        $this->dependencies[] = $dep;
+
+        // ->('name')
+        // ->('src/file.css')
+        if (count(func_get_args()) !== 1) {
+            throw new \Exception('Pass exactly one argument to reference asset');
+        }
+        foreach ([$assetFactory, $this->assetFactory()] as $factory) {
+            if ($factory) {
+                $this->dependencies[] = (string)$pattern;
+                return $this;
+            }
+        }
+
         return $this;
     }
 
     /**
-     * @return Asset[]
+     * @return Asset[]|string[]
      */
-    public function getDependencies()
+    public function dependencies()
     {
         return $this->dependencies;
     }
 
+    public function resolveDependency($name, Asset $asset)
+    {
+        foreach ($this->dependencies as &$dependency) {
+            if ($dependency === $name) {
+                $dependency = $asset;
+            }
+        }
+    }
+
     public function dump()
     {
-        foreach ($this->getFilters() as $filter) {
+        foreach ($this->filters() as $filter) {
             $filter->dump($this);
         }
-        return $this->getContent();
+        return $this->content();
     }
 
     public function hash()
@@ -114,7 +140,7 @@ class Asset implements HashableInterface
         return implode('|', $hashArray);
     }
 
-    public function getTargetPath()
+    public function targetPath()
     {
         $hash = substr(md5($this->hash()), 0, 7);
         return str_replace('*', $hash, $this->targetPath);

@@ -13,7 +13,7 @@ class FilesystemAssetWriter
 
     public function writeManagerAssets(AssetManager $manager)
     {
-        foreach ($manager->getAssets(false) as $asset) {
+        foreach ($manager->assets(false) as $asset) {
             $this->writeAsset($asset);
         }
     }
@@ -21,7 +21,7 @@ class FilesystemAssetWriter
     public function writeAsset(Asset $asset)
     {
         $content = $asset->dump();
-        $path = $this->outputDir . '/' . $asset->getTargetPath();
+        $path = $this->outputDir . '/' . $asset->targetPath();
         $dir = dirname($path);
         if (!@mkdir($dir, 0777, true) && !is_dir($dir)) {
             throw new \Exception("Can't create dir {$dir}");

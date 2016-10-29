@@ -29,9 +29,33 @@ abstract class Extension extends ServiceProvider
         $class = new \ReflectionClass(get_class($this));
         $basePath = dirname($class->getFileName());
 
-        $controllersNamespace = $class->getNamespaceName().'\Http\Controllers';
+        $this->loadRoutes($class->getNamespaceName() . '\Http\Controllers', $basePath);
+        $this->loadMigrationsFrom($basePath.'/migrations');
+        $this->loadTranslationsFrom($basePath.'/translations', $this->getName());
+        $this->loadViewsFrom($basePath.'/resources/views', $this->getName());
+        $this->loadCommands($this->providesCommands());
+        $this->loadNodes($this->providesNodes());
+    }
 
-        $webRoutesPath = $basePath.'/routes/web.php';
+    protected function loadCommands($commands)
+    {
+        if ($this->app->runningInConsole()) {
+            $this->commands($commands);
+        }
+    }
+
+    protected function loadNodes($nodes)
+    {
+        $this->app->afterResolving(NodeFactory::class, function (NodeFactory $factory) use ($nodes) {
+            foreach ($nodes as $type => $nodeClass) {
+                $factory->registerNodeClass($type, $nodeClass);
+            }
+        });
+    }
+
+    protected function loadRoutes($controllersNamespace, $basePath)
+    {
+        $webRoutesPath = $basePath . '/routes/web.php';
         if (file_exists($webRoutesPath)) {
             $this->app->group(
                 ['middleware' => 'web', 'namespace' => $controllersNamespace, 'prefix' => $this->getName()],
@@ -41,28 +65,14 @@ abstract class Extension extends ServiceProvider
             );
         }
 
-        $apiRoutesPath = $basePath.'/routes/api.php';
+        $apiRoutesPath = $basePath . '/routes/api.php';
         if (file_exists($apiRoutesPath)) {
             $this->app->group(
-                ['middleware' => 'api', 'namespace' => $controllersNamespace, 'prefix' => 'api/'.$this->getName()],
+                ['middleware' => 'api', 'namespace' => $controllersNamespace, 'prefix' => 'api/' . $this->getName()],
                 function () use ($apiRoutesPath) {
                     require $apiRoutesPath;
                 }
             );
         }
-
-        $this->loadMigrationsFrom($basePath.'/migrations');
-        $this->loadTranslationsFrom($basePath.'/translations', $this->getName());
-        $this->loadViewsFrom($basePath.'/resources/views', $this->getName());
-
-        if ($this->app->runningInConsole()) {
-            $this->commands($this->providesCommands());
-        }
-
-        $this->app->afterResolving(NodeFactory::class, function (NodeFactory $factory) {
-            foreach ($this->providesNodes() as $type => $nodeClass) {
-                $factory->registerNodeClass($type, $nodeClass);
-            }
-        });
     }
 }

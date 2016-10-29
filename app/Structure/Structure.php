@@ -3,7 +3,7 @@
 namespace App\Structure;
 
 use App\Assets\AssetFactory;
-use App\Structure\Node\BaseNode;
+use App\Structure\Node;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 
@@ -17,7 +17,7 @@ class Structure implements Arrayable, Jsonable
         if (is_string($structure)) {
             $structure = static::decode($structure);
         }
-        $this->tree = $this->initTree($structure, new BaseNode(BaseNode::ROOT_T));
+        $this->tree = $this->initTree($structure, new Node(Node::ROOT_T));
     }
 
     public function getTree()
@@ -35,7 +35,7 @@ class Structure implements Arrayable, Jsonable
         return app()->make(NodeFactory::class);
     }
 
-    protected function initTree(array $tree, BaseNode $parent)
+    protected function initTree(array $tree, Node $parent)
     {
         foreach ($tree as $nodeData) {
             $node = $this->getNodeFactory()->make($nodeData);

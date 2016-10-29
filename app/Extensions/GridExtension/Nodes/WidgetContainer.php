@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Structure\Node\Grid;
+namespace App\Extensions\GridExtension\Nodes;
 
 use App\Assets\AssetFactory;
-use App\Structure\Node\BaseNode;
+use App\Structure\Node;
 
-class WidgetContainer extends BaseNode
+class WidgetContainer extends Node
 {
     public function getAssets(AssetFactory $factory)
     {

@@ -7,6 +7,7 @@ use App\Assets\AssetPattern;
 use App\Assets\Filter\CssMinFilter;
 use App\Assets\Filter\LessFilter;
 use App\Assets\FilterManager;
+use App\Structure\NodeFactory;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -27,6 +28,10 @@ class AppServiceProvider extends ServiceProvider
             $factory->setPattern('less', new AssetPattern('css/*.css', ['less', 'css_min']));
 
             return $factory;
+        });
+
+        $this->app->singleton(NodeFactory::class, function () {
+            return new NodeFactory();
         });
     }
 }

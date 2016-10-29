@@ -11,5 +11,6 @@ return [
     'providers' => [
         App\Providers\SpacelessBladeDirectiveProvider::class,
         App\Providers\AppServiceProvider::class,
+        App\Providers\ExtensionServiceProvider::class,
     ],
 ];

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Structure\Node\Semantic;
+namespace App\Extensions\SemanticExtension\Nodes;
 
-use App\Structure\Node\BaseNode;
+use App\Structure\Node;
 
-class WidgetMain extends BaseNode
+class WidgetMain extends Node
 {
     public function toHtml()
     {

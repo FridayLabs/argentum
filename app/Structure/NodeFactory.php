@@ -2,32 +2,19 @@
 
 namespace App\Structure;
 
-use App\Structure\Node\BaseNode;
-use App\Structure\Node\Grid\WidgetColumn;
-use App\Structure\Node\Grid\WidgetContainer;
-use App\Structure\Node\Grid\WidgetRow;
-use App\Structure\Node\Semantic\WidgetFooter;
-use App\Structure\Node\Semantic\WidgetHeader;
-use App\Structure\Node\Semantic\WidgetMain;
-use App\Structure\Node\Typography\WidgetParagraph;
-
 class NodeFactory
 {
-    protected $nodeClasses = [
-        'widget-header' => WidgetHeader::class,
-        'widget-main'   => WidgetMain::class,
-        'widget-footer' => WidgetFooter::class,
-
-        'widget-container' => WidgetContainer::class,
-        'widget-row'       => WidgetRow::class,
-        'widget-column'    => WidgetColumn::class,
-
-        'widget-paragraph' => WidgetParagraph::class,
-    ];
+    public function registerNodeClass($type, $nodeClass)
+    {
+        if (isset($this->nodeClasses[$type])) {
+            throw new \Exception('Node ' . $type . ' already defined');
+        }
+        $this->nodeClasses[$type] = $nodeClass;
+    }
 
     protected function getNodeClass($type)
     {
-        return array_get($this->nodeClasses, $type, BaseNode::class);
+        return array_get($this->nodeClasses, $type, Node::class);
     }
 
     public function make(array $nodeData)

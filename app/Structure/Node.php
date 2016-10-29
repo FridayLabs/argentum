@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Structure\Node;
+namespace App\Structure;
 
 use App\Assets\AssetFactory;
-use App\Config;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 
-class BaseNode implements Arrayable, Jsonable
+class Node implements Arrayable, Jsonable
 {
     const ROOT_T = 'system-root';
 
@@ -22,38 +21,33 @@ class BaseNode implements Arrayable, Jsonable
         $this->config = $config;
     }
 
-    public function isRoot()
-    {
-        return $this->getType() === static::ROOT_T;
-    }
-
     public function getType()
     {
         return $this->type;
     }
 
     /**
-     * @return BaseNode
+     * @return Node
      */
     public function getParent()
     {
         return $this->parent;
     }
 
-    public function setParent(BaseNode $parent)
+    public function setParent(Node $parent)
     {
         $this->parent = $parent;
     }
 
     /**
-     * @return BaseNode[]
+     * @return Node[]
      */
     public function getChildren()
     {
         return $this->children;
     }
 
-    public function addChild(BaseNode $child)
+    public function addChild(Node $child)
     {
         $this->children[] = $child;
         $child->setParent($this);

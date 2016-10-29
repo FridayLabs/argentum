@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Structure\Node\Typography;
+namespace App\Extensions\TypographyExtension\Nodes;
 
 use App\Assets\AssetFactory;
-use App\Structure\Node\BaseNode;
+use App\Structure\Node;
 
-class WidgetParagraph extends BaseNode
+class WidgetParagraph extends Node
 {
     public function getAssets(AssetFactory $factory)
     {

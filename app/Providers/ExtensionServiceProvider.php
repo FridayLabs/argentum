@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Assets\AssetFactory;
 use App\Extensions\Extension;
 use Illuminate\Support\ServiceProvider;
 
@@ -27,7 +26,7 @@ class ExtensionServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        /**
+        /*
          * @var Extension[]
          */
         $extensions = $this->app->make('extensions');

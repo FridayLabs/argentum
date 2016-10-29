@@ -57,11 +57,11 @@ class AssetFactory
         if (strpos($sourcePath, '::') !== false) {
             list($namespace, $path) = explode('::', $sourcePath);
             if (!isset($this->namespaces[$namespace])) {
-                throw new \Exception('Unknown namespace ' . $namespace . ' in ' . $sourcePath);
+                throw new \Exception('Unknown namespace '.$namespace.' in '.$sourcePath);
             }
-            $sourcePath = $this->namespaces[$namespace] . '/' . $path;
+            $sourcePath = $this->namespaces[$namespace].'/'.$path;
         }
-        $fullSourcePath = realpath(!starts_with($sourcePath, '/') ? $this->assetsDir . '/' . $sourcePath : $sourcePath);
+        $fullSourcePath = realpath(!starts_with($sourcePath, '/') ? $this->assetsDir.'/'.$sourcePath : $sourcePath);
         if (!file_exists($fullSourcePath)) {
             throw new \Exception("Source {$sourcePath} is not exists");
         }

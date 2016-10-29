@@ -29,7 +29,7 @@ abstract class Extension extends ServiceProvider
     public function basePath($path = '')
     {
         if (isset($this->basePath)) {
-            return $this->basePath . ($path ? '/' . $path : $path);
+            return $this->basePath.($path ? '/'.$path : $path);
         }
         $class = new \ReflectionClass(get_class($this));
         $this->basePath = dirname($class->getFileName());
@@ -41,7 +41,7 @@ abstract class Extension extends ServiceProvider
     {
         $class = new \ReflectionClass(get_class($this));
 
-        $this->loadRoutes($class->getNamespaceName() . '\Http\Controllers');
+        $this->loadRoutes($class->getNamespaceName().'\Http\Controllers');
         $this->loadMigrationsFrom($this->basePath('migrations'));
         $this->loadTranslationsFrom($this->basePath('translations'), $this->name());
         app(AssetFactory::class)->setNamespace($this->name(), $this->basePath('resources/assets'));
@@ -81,7 +81,7 @@ abstract class Extension extends ServiceProvider
         $apiRoutesPath = $this->basePath('routes/web.php');
         if (file_exists($apiRoutesPath)) {
             $this->app->group(
-                ['middleware' => 'api', 'namespace' => $controllersNamespace, 'prefix' => 'api/' . $this->name()],
+                ['middleware' => 'api', 'namespace' => $controllersNamespace, 'prefix' => 'api/'.$this->name()],
                 function () use ($apiRoutesPath) {
                     require $apiRoutesPath;
                 }

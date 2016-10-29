@@ -12,7 +12,7 @@ class Controller extends BaseController
 {
     public function displayPage(Page $page)
     {
-        /**
+        /*
          * @var Structure
          */
         $structure = $page->getStructureWithLayout();

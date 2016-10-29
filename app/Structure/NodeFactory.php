@@ -7,7 +7,7 @@ class NodeFactory
     public function registerNodeClass($type, $nodeClass)
     {
         if (isset($this->nodeClasses[$type])) {
-            throw new \Exception('Node ' . $type . ' already defined');
+            throw new \Exception('Node '.$type.' already defined');
         }
         $this->nodeClasses[$type] = $nodeClass;
     }

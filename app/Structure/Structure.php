@@ -3,7 +3,6 @@
 namespace App\Structure;
 
 use App\Assets\AssetFactory;
-use App\Structure\Node;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 

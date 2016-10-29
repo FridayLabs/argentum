@@ -14,9 +14,9 @@ class GridExtension extends Extension
     protected function providesNodes()
     {
         return [
-            'widget-column' => WidgetColumn::class,
+            'widget-column'    => WidgetColumn::class,
             'widget-container' => WidgetContainer::class,
-            'widget-row' => WidgetRow::class,
+            'widget-row'       => WidgetRow::class,
         ];
     }
 }

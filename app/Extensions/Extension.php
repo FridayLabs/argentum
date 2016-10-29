@@ -29,9 +29,9 @@ abstract class Extension extends ServiceProvider
         $class = new \ReflectionClass(get_class($this));
         $basePath = dirname($class->getFileName());
 
-        $controllersNamespace = $class->getNamespaceName() . '\Http\Controllers';
+        $controllersNamespace = $class->getNamespaceName().'\Http\Controllers';
 
-        $webRoutesPath = $basePath . '/routes/web.php';
+        $webRoutesPath = $basePath.'/routes/web.php';
         if (file_exists($webRoutesPath)) {
             $this->app->group(
                 ['middleware' => 'web', 'namespace' => $controllersNamespace, 'prefix' => $this->getName()],
@@ -41,19 +41,19 @@ abstract class Extension extends ServiceProvider
             );
         }
 
-        $apiRoutesPath = $basePath . '/routes/api.php';
+        $apiRoutesPath = $basePath.'/routes/api.php';
         if (file_exists($apiRoutesPath)) {
             $this->app->group(
-                ['middleware' => 'api', 'namespace' => $controllersNamespace, 'prefix' => 'api/' . $this->getName()],
+                ['middleware' => 'api', 'namespace' => $controllersNamespace, 'prefix' => 'api/'.$this->getName()],
                 function () use ($apiRoutesPath) {
                     require $apiRoutesPath;
                 }
             );
         }
 
-        $this->loadMigrationsFrom($basePath . '/migrations');
-        $this->loadTranslationsFrom($basePath . '/translations', $this->getName());
-        $this->loadViewsFrom($basePath . '/resources/views', $this->getName());
+        $this->loadMigrationsFrom($basePath.'/migrations');
+        $this->loadTranslationsFrom($basePath.'/translations', $this->getName());
+        $this->loadViewsFrom($basePath.'/resources/views', $this->getName());
 
         if ($this->app->runningInConsole()) {
             $this->commands($this->providesCommands());

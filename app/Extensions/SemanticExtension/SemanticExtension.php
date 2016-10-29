@@ -15,7 +15,7 @@ class SemanticExtension extends Extension
     {
         return [
             'widget-header' => WidgetHeader::class,
-            'widget-main' => WidgetMain::class,
+            'widget-main'   => WidgetMain::class,
             'widget-footer' => WidgetFooter::class,
         ];
     }

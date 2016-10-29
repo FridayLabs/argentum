@@ -2,14 +2,16 @@
 
 namespace App\Extensions;
 
+use App\Assets\AssetFactory;
 use App\Structure\NodeFactory;
 use Illuminate\Support\ServiceProvider;
 
 abstract class Extension extends ServiceProvider
 {
     protected $name;
+    protected $basePath;
 
-    public function getName()
+    public function name()
     {
         return $this->name ?: get_class($this);
     }
@@ -24,15 +26,26 @@ abstract class Extension extends ServiceProvider
         return [];
     }
 
+    public function basePath($path = '')
+    {
+        if (isset($this->basePath)) {
+            return $this->basePath . ($path ? '/' . $path : $path);
+        }
+        $class = new \ReflectionClass(get_class($this));
+        $this->basePath = dirname($class->getFileName());
+
+        return $this->basePath($path);
+    }
+
     public function boot()
     {
         $class = new \ReflectionClass(get_class($this));
-        $basePath = dirname($class->getFileName());
 
-        $this->loadRoutes($class->getNamespaceName().'\Http\Controllers', $basePath);
-        $this->loadMigrationsFrom($basePath.'/migrations');
-        $this->loadTranslationsFrom($basePath.'/translations', $this->getName());
-        $this->loadViewsFrom($basePath.'/resources/views', $this->getName());
+        $this->loadRoutes($class->getNamespaceName() . '\Http\Controllers');
+        $this->loadMigrationsFrom($this->basePath('migrations'));
+        $this->loadTranslationsFrom($this->basePath('translations'), $this->name());
+        app(AssetFactory::class)->setNamespace($this->name(), $this->basePath('resources/assets'));
+        $this->loadViewsFrom($this->basePath('resources/views'), $this->name());
         $this->loadCommands($this->providesCommands());
         $this->loadNodes($this->providesNodes());
     }
@@ -53,22 +66,22 @@ abstract class Extension extends ServiceProvider
         });
     }
 
-    protected function loadRoutes($controllersNamespace, $basePath)
+    protected function loadRoutes($controllersNamespace)
     {
-        $webRoutesPath = $basePath.'/routes/web.php';
+        $webRoutesPath = $this->basePath('routes/web.php');
         if (file_exists($webRoutesPath)) {
             $this->app->group(
-                ['middleware' => 'web', 'namespace' => $controllersNamespace, 'prefix' => $this->getName()],
+                ['middleware' => 'web', 'namespace' => $controllersNamespace],
                 function () use ($webRoutesPath) {
                     require $webRoutesPath;
                 }
             );
         }
 
-        $apiRoutesPath = $basePath.'/routes/api.php';
+        $apiRoutesPath = $this->basePath('routes/web.php');
         if (file_exists($apiRoutesPath)) {
             $this->app->group(
-                ['middleware' => 'api', 'namespace' => $controllersNamespace, 'prefix' => 'api/'.$this->getName()],
+                ['middleware' => 'api', 'namespace' => $controllersNamespace, 'prefix' => 'api/' . $this->name()],
                 function () use ($apiRoutesPath) {
                     require $apiRoutesPath;
                 }

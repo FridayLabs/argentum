@@ -21,7 +21,7 @@ class Node implements Arrayable, Jsonable
         $this->config = $config;
     }
 
-    public function getType()
+    public function type()
     {
         return $this->type;
     }
@@ -29,7 +29,7 @@ class Node implements Arrayable, Jsonable
     /**
      * @return Node
      */
-    public function getParent()
+    public function parent()
     {
         return $this->parent;
     }
@@ -42,7 +42,7 @@ class Node implements Arrayable, Jsonable
     /**
      * @return Node[]
      */
-    public function getChildren()
+    public function children()
     {
         return $this->children;
     }
@@ -56,7 +56,7 @@ class Node implements Arrayable, Jsonable
     /**
      * @return array
      */
-    public function getConfig()
+    public function config()
     {
         return $this->config;
     }
@@ -68,8 +68,8 @@ class Node implements Arrayable, Jsonable
 
     public function toArray()
     {
-        $self = ['type' => $this->getType(), 'config' => $this->getConfig()];
-        foreach ($this->getChildren() as $child) {
+        $self = ['type' => $this->type(), 'config' => $this->config()];
+        foreach ($this->children() as $child) {
             $self['children'][] = $child->toArray();
         }
 
@@ -84,14 +84,14 @@ class Node implements Arrayable, Jsonable
     public function toHtml()
     {
         $childrenContent = '';
-        foreach ($this->getChildren() as $child) {
+        foreach ($this->children() as $child) {
             $childrenContent .= $child->toHtml();
         }
 
         return $childrenContent;
     }
 
-    public function getAssets(AssetFactory $factory)
+    public function assets(AssetFactory $factory)
     {
         return [
             $factory->file('css', vendor_path('bower-asset/normalize.css/normalize.css'), 'normalize'),
@@ -100,8 +100,8 @@ class Node implements Arrayable, Jsonable
 
     public function collectAssets(AssetFactory $factory)
     {
-        $assets = $this->getAssets($factory);
-        foreach ($this->getChildren() as $child) {
+        $assets = $this->assets($factory);
+        foreach ($this->children() as $child) {
             $assets = array_merge($assets, $child->collectAssets($factory));
         }
 

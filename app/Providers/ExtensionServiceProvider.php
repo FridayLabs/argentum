@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Assets\AssetFactory;
 use App\Extensions\Extension;
 use Illuminate\Support\ServiceProvider;
 
@@ -17,7 +18,7 @@ class ExtensionServiceProvider extends ServiceProvider
                 if (!$ext instanceof Extension) {
                     throw new \Exception($ext.' should extend '.Extension::class.' class');
                 }
-                $extensions[] = $ext;
+                $extensions[$ext->name()] = $ext;
             }
 
             return $extensions;

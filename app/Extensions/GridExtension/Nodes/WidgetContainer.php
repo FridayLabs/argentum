@@ -7,17 +7,17 @@ use App\Structure\Node;
 
 class WidgetContainer extends Node
 {
-    public function getAssets(AssetFactory $factory)
+    public function assets(AssetFactory $factory)
     {
         return [
-            $factory->file('less', 'grid/container.less'),
+            $factory->file('less', 'grid::container.less'),
         ];
     }
 
     public function toHtml()
     {
         $childrenContent = parent::toHtml();
-        $isFullWidth = array_get($this->getConfig(), 'isFullWidth', false);
+        $isFullWidth = array_get($this->config(), 'isFullWidth', false);
         $class = 'container'.($isFullWidth ? '-fluid' : '');
 
         return "<div class='{$class}'>{$childrenContent}</div>";

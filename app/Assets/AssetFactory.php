@@ -18,7 +18,7 @@ class AssetFactory
      */
     protected $filterManager;
 
-    protected static $cache = [];
+    protected $namespaces = [];
 
     public function __construct($assetsDir)
     {
@@ -35,6 +35,11 @@ class AssetFactory
         $this->filterManager = $filterManager;
     }
 
+    public function setNamespace($name, $path)
+    {
+        $this->namespaces[$name] = $path;
+    }
+
     public function setPattern($name, AssetPattern $pattern)
     {
         $this->assetPatterns[$name] = $pattern;
@@ -48,7 +53,15 @@ class AssetFactory
     public function file($pattern, $sourcePath, $name = null, $filters = [])
     {
         $name = $name ?: $sourcePath;
-        $fullSourcePath = realpath(!starts_with($sourcePath, '/') ? $this->assetsDir.'/'.$sourcePath : $sourcePath);
+
+        if (strpos($sourcePath, '::') !== false) {
+            list($namespace, $path) = explode('::', $sourcePath);
+            if (!isset($this->namespaces[$namespace])) {
+                throw new \Exception('Unknown namespace ' . $namespace . ' in ' . $sourcePath);
+            }
+            $sourcePath = $this->namespaces[$namespace] . '/' . $path;
+        }
+        $fullSourcePath = realpath(!starts_with($sourcePath, '/') ? $this->assetsDir . '/' . $sourcePath : $sourcePath);
         if (!file_exists($fullSourcePath)) {
             throw new \Exception("Source {$sourcePath} is not exists");
         }
@@ -65,6 +78,9 @@ class AssetFactory
         $resultFilters = [];
         foreach (array_merge($pattern->filters(), $filters) as $filter) {
             if (!$filter instanceof BaseFilter) {
+                if (is_string($filter) && starts_with($filter, '?') && env('APP_DEBUG', false)) {
+                    continue;
+                }
                 $filter = $this->filterManager()->get($filter);
             }
             if ($filter) {

@@ -7,7 +7,7 @@ use App\Structure\Node;
 
 class WidgetParagraph extends Node
 {
-    public function getAssets(AssetFactory $factory)
+    public function assets(AssetFactory $factory)
     {
         return [
 
@@ -17,7 +17,7 @@ class WidgetParagraph extends Node
     public function toHtml()
     {
         $childrenContent = parent::toHtml();
-        $content = array_get($this->getConfig(), 'content', '');
+        $content = array_get($this->config(), 'content', '');
 
         return "<p>{$content}{$childrenContent}</p>";
     }

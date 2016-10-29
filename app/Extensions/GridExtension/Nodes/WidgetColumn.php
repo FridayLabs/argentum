@@ -7,10 +7,10 @@ use App\Structure\Node;
 
 class WidgetColumn extends Node
 {
-    public function getAssets(AssetFactory $factory)
+    public function assets(AssetFactory $factory)
     {
         return [
-            $factory->file('less', 'grid/column.less')->dependsOn('less', 'grid/utils.less'),
+            $factory->file('less', 'grid::column.less')->dependsOn('less', 'grid::utils.less'),
         ];
     }
 
@@ -19,7 +19,7 @@ class WidgetColumn extends Node
         $childrenContent = parent::toHtml();
 
         $classes = [];
-        $config = $this->getConfig();
+        $config = $this->config();
 
         foreach (array_get($config, 'size') ?: [] as $mod => $value) {
             $classes[] = implode('-', ['col', $mod, $value]);

@@ -24,8 +24,8 @@ class AppServiceProvider extends ServiceProvider
         $this->app->singleton(AssetFactory::class, function () {
             $factory = new AssetFactory(resource_path('assets'));
             $factory->setFilterManager($this->app->make(FilterManager::class));
-            $factory->setPattern('css', new AssetPattern('css/*.css', ['css_min']));
-            $factory->setPattern('less', new AssetPattern('css/*.css', ['less', 'css_min']));
+            $factory->setPattern('css', new AssetPattern('css/*.css', ['?css_min']));
+            $factory->setPattern('less', new AssetPattern('css/*.css', ['less', '?css_min']));
 
             return $factory;
         });

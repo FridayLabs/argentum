@@ -28,9 +28,10 @@ class RollupFilter extends BaseFilter
 
     protected function buildCommand(Asset $asset)
     {
-        $command = $this->nodeExecutable . ' ' . $this->rollupExecutable .
-            ($this->format ? ' -f ' . $this->format : '') .
-            ' -i ' . $asset->sourcePath();
+        $command = $this->nodeExecutable.' '.$this->rollupExecutable.
+            ($this->format ? ' -f '.$this->format : '').
+            ' -i '.$asset->sourcePath();
+
         return $command;
     }
 
@@ -43,7 +44,7 @@ class RollupFilter extends BaseFilter
         if ($process->isSuccessful()) {
             $asset->setContent($process->getOutput());
         } else {
-            throw new \Exception('Rollup error. ' . $process->getErrorOutput());
+            throw new \Exception('Rollup error. '.$process->getErrorOutput());
         }
     }
 }

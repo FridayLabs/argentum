@@ -21,6 +21,7 @@ class CompilesAssets
             $writer = app(AssetWriter::class);
             $writer->writeManagerAssets($manager);
         }
+
         return true;
     }
 }

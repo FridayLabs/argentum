@@ -9,6 +9,7 @@ if (!function_exists('path')) {
                 return [app('extensions')[$namespace]->basePath(), $path];
             }
         }
+
         return [app()->basePath(), $path];
     }
 }
@@ -17,7 +18,8 @@ if (!function_exists('resource_path')) {
     function resource_path($path = '')
     {
         $path = path($path);
-        return $path[0] . '/resources' . ($path[1] ? '/' . $path[1] : $path[1]);
+
+        return $path[0].'/resources'.($path[1] ? '/'.$path[1] : $path[1]);
     }
 }
 
@@ -25,7 +27,8 @@ if (!function_exists('node_path')) {
     function node_path($path = '')
     {
         $path = path($path);
-        return $path[0] . '/node_modules' . ($path[1] ? '/' . $path[1] : $path[1]);
+
+        return $path[0].'/node_modules'.($path[1] ? '/'.$path[1] : $path[1]);
     }
 }
 
@@ -33,7 +36,8 @@ if (!function_exists('vendor_path')) {
     function vendor_path($path = '')
     {
         $path = path($path);
-        return $path[0] . '/vendor' . ($path[1] ? '/' . $path[1] : $path[1]);
+
+        return $path[0].'/vendor'.($path[1] ? '/'.$path[1] : $path[1]);
     }
 }
 
@@ -42,6 +46,7 @@ if (!function_exists('file_asset')) {
     {
         $asset = app(\App\Assets\AssetFactory::class)->file($pattern, $sourcePath, $name, $filters);
         app(\App\Assets\AssetManager::class)->addAsset($asset);
+
         return $asset;
     }
 }

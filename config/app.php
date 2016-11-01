@@ -14,6 +14,6 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\ExtensionServiceProvider::class,
 
-        App\Providers\AuthServiceProvider::class
+        App\Providers\AuthServiceProvider::class,
     ],
 ];

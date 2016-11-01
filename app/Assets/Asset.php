@@ -89,11 +89,13 @@ class Asset implements HashableInterface
         }
 
         // ->('less', 'source', ...)
-        foreach ([$assetFactory, $this->assetFactory()] as $factory) {
-            if ($factory && $factory->hasPattern($pattern)) {
-                $this->dependencies[] = $factory->file($pattern, $sourcePath, $name, $filters);
+        if (count(func_get_args()) > 1) {
+            foreach ([$assetFactory, $this->assetFactory()] as $factory) {
+                if ($factory && $factory->hasPattern($pattern)) {
+                    $this->dependencies[] = $factory->file($pattern, $sourcePath, $name, $filters);
 
-                return $this;
+                    return $this;
+                }
             }
         }
 

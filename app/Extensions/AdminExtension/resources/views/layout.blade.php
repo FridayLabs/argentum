@@ -6,7 +6,7 @@
     <?php
     file_asset('css', node_path('admin::bulma/css/bulma.css'));
     file_asset('js', node_path('admin::vue/dist/vue.min.js'), 'vue');
-    file_asset('es6_js', 'admin::app.js')->dependsOn('vue');
+    file_asset('vue', 'admin::app.js')->dependsOn('vue');
     ?>
 
     @foreach(styles_assets() as $style)
@@ -15,7 +15,7 @@
 </head>
 <body>
 <div id="app">
-    @{{ message }}
+    <foo></foo>
 </div>
 
 @foreach(scripts_assets() as $script)

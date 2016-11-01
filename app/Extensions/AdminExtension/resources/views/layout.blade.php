@@ -3,14 +3,24 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
+    <?php
+    file_asset('css', node_path('admin::bulma/css/bulma.css'));
+    file_asset('js', node_path('admin::vue/dist/vue.min.js'), 'vue');
+    file_asset('es6_js', 'admin::app.js')->dependsOn('vue');
+    ?>
+
     @foreach(styles_assets() as $style)
         <link rel="stylesheet" href="/static/{{ $style->targetPath() }}">
     @endforeach
-    <title>{{ $title }}</title>
 </head>
-<body>{!! $content !!}</body>
+<body>
+<div id="app">
+    @{{ message }}
+</div>
+
 @foreach(scripts_assets() as $script)
     <script src="/static/{{ $script->targetPath() }}"></script>
 @endforeach
+</body>
 </html>
 @endspaceless

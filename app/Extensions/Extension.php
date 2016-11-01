@@ -42,7 +42,7 @@ abstract class Extension extends ServiceProvider
         $class = new \ReflectionClass(get_class($this));
 
         $this->loadRoutes($class->getNamespaceName().'\Http\Controllers');
-        $this->loadMigrationsFrom($this->basePath('migrations'));
+        $this->loadMigrationsFrom($this->basePath('database/migrations'));
         $this->loadTranslationsFrom($this->basePath('translations'), $this->name());
         app(AssetFactory::class)->setNamespace($this->name(), $this->basePath('resources/assets'));
         $this->loadViewsFrom($this->basePath('resources/views'), $this->name());
@@ -71,21 +71,25 @@ abstract class Extension extends ServiceProvider
         $webRoutesPath = $this->basePath('routes/web.php');
         if (file_exists($webRoutesPath)) {
             $this->app->group(
-                ['middleware' => 'web', 'namespace' => $controllersNamespace],
-                function () use ($webRoutesPath) {
-                    require $webRoutesPath;
-                }
+                ['namespace' => $controllersNamespace],
+                $this->routeLoader($webRoutesPath)
             );
         }
 
         $apiRoutesPath = $this->basePath('routes/web.php');
         if (file_exists($apiRoutesPath)) {
             $this->app->group(
-                ['middleware' => 'api', 'namespace' => $controllersNamespace, 'prefix' => 'api/'.$this->name()],
-                function () use ($apiRoutesPath) {
-                    require $apiRoutesPath;
-                }
+                ['namespace' => $controllersNamespace, 'prefix' => 'api/'.$this->name()],
+                $this->routeLoader($apiRoutesPath)
             );
         }
+    }
+
+    protected function routeLoader($path)
+    {
+        return function () use ($path) {
+            $app = $this->app;
+            require $path;
+        };
     }
 }

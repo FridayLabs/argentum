@@ -4,6 +4,7 @@ return [
     'middlewares' => [
         App\Http\Middleware\Homepage::class,
         App\Http\Middleware\LoadRoutes::class,
+        App\Http\Middleware\CompilesAssets::class,
     ],
     'routeMiddlewares' => [
         'auth' => App\Http\Middleware\Authenticate::class,
@@ -12,5 +13,7 @@ return [
         App\Providers\SpacelessBladeDirectiveProvider::class,
         App\Providers\AppServiceProvider::class,
         App\Providers\ExtensionServiceProvider::class,
+
+        App\Providers\AuthServiceProvider::class
     ],
 ];

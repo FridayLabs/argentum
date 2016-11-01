@@ -2,7 +2,7 @@
 
 namespace App\Assets;
 
-class FilesystemAssetWriter
+class FilesystemAssetWriter extends AssetWriter
 {
     protected $outputDir;
 
@@ -26,6 +26,7 @@ class FilesystemAssetWriter
         if (!@mkdir($dir, 0777, true) && !is_dir($dir)) {
             throw new \Exception("Can't create dir {$dir}");
         }
+        touch($path);
         file_put_contents($path, $content);
     }
 }

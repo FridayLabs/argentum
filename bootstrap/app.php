@@ -1,6 +1,5 @@
 <?php
 
-require_once __DIR__.'/../app/helpers.php';
 require_once __DIR__.'/../vendor/autoload.php';
 
 try {
@@ -15,10 +14,12 @@ $app->singleton(Illuminate\Contracts\Debug\ExceptionHandler::class, App\Exceptio
 $app->singleton(Illuminate\Contracts\Console\Kernel::class, App\Console\Kernel::class);
 
 $app->withEloquent();
+$app->withFacades();
 
+$app->configure('auth');
 $app->configure('app');
-$app->middleware(config('app.middlewares', []));
 $app->routeMiddleware(config('app.routeMiddlewares', []));
+$app->middleware(config('app.middlewares', []));
 foreach (config('app.providers', []) as $provider) {
     $app->register($provider);
 }

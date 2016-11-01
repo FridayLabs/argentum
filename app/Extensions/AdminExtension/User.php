@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace App\Extensions\AdminExtension;
 
 use Illuminate\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\Access\Authorizable as AuthorizableContract;

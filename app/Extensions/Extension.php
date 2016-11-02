@@ -3,10 +3,10 @@
 namespace App\Extensions;
 
 use App\Assets\AssetFactory;
+use App\Providers\RoutesServiceProvider;
 use App\Structure\NodeFactory;
-use Illuminate\Support\ServiceProvider;
 
-abstract class Extension extends ServiceProvider
+abstract class Extension extends RoutesServiceProvider
 {
     protected $name;
     protected $basePath;
@@ -41,7 +41,7 @@ abstract class Extension extends ServiceProvider
     {
         $class = new \ReflectionClass(get_class($this));
 
-        $this->loadRoutes($class->getNamespaceName().'\Http\Controllers');
+        $this->loadRoutes($class->getNamespaceName().'\Http\Controllers', $this->basePath());
         $this->loadMigrationsFrom($this->basePath('database/migrations'));
         $this->loadTranslationsFrom($this->basePath('translations'), $this->name());
         app(AssetFactory::class)->setNamespace($this->name(), $this->basePath('resources/assets'));
@@ -64,32 +64,5 @@ abstract class Extension extends ServiceProvider
                 $factory->registerNodeClass($type, $nodeClass);
             }
         });
-    }
-
-    protected function loadRoutes($controllersNamespace)
-    {
-        $webRoutesPath = $this->basePath('routes/web.php');
-        if (file_exists($webRoutesPath)) {
-            $this->app->group(
-                ['namespace' => $controllersNamespace],
-                $this->routeLoader($webRoutesPath)
-            );
-        }
-
-        $apiRoutesPath = $this->basePath('routes/web.php');
-        if (file_exists($apiRoutesPath)) {
-            $this->app->group(
-                ['namespace' => $controllersNamespace, 'prefix' => 'api/'.$this->name()],
-                $this->routeLoader($apiRoutesPath)
-            );
-        }
-    }
-
-    protected function routeLoader($path)
-    {
-        return function () use ($path) {
-            $app = $this->app;
-            require $path;
-        };
     }
 }

@@ -1,4 +1,4 @@
-@extends('admin::auth.layout')
+@extends('admin::admin.auth.layout')
 
 @section('form_content')
     <div class="columns is-vcentered">

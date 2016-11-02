@@ -12,8 +12,10 @@ return [
     'providers' => [
         App\Providers\SpacelessBladeDirectiveProvider::class,
         App\Providers\AppServiceProvider::class,
+        App\Providers\RoutesServiceProvider::class,
         App\Providers\ExtensionServiceProvider::class,
 
         App\Providers\AuthServiceProvider::class,
+        Tymon\JWTAuth\Providers\LumenServiceProvider::class
     ],
 ];

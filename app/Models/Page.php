@@ -17,8 +17,8 @@ class Page extends Model
     public function getStructureWithLayout()
     {
         $layout = clone $this->layout->structure;
-        $slot = $layout->getContentSlot();
-        array_map([$slot, 'addChild'], $this->structure->getTree()->children());
+        $slot = $layout->subtreeSlot();
+        array_map([$slot, 'addChild'], $this->structure->tree()->children());
 
         return $layout;
     }

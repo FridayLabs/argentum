@@ -3,22 +3,25 @@
 namespace App\Extensions\TypographyExtension\Nodes;
 
 use App\Assets\AssetFactory;
-use App\Structure\Node;
+use App\Structure\Node\HasOptimizedView;
+use App\Structure\Node\Node;
 
-class WidgetParagraph extends Node
+class WidgetParagraph extends Node implements HasOptimizedView
 {
-    public function assets(AssetFactory $factory)
+    public function optimizedView($childrenContent)
     {
-        return [
-
-        ];
-    }
-
-    public function toHtml()
-    {
-        $childrenContent = parent::toHtml();
         $content = array_get($this->config(), 'content', '');
 
         return "<p>{$content}{$childrenContent}</p>";
+    }
+
+    public function configurationAsset(AssetFactory $factory)
+    {
+        return $factory->file('vue', 'typography::components/paragraph/paragraph.config.vue');
+    }
+
+    public function componentAsset(AssetFactory $factory)
+    {
+        return $factory->file('vue', 'typography::components/paragraph/paragraph.vue');
     }
 }

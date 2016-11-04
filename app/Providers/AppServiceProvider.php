@@ -42,7 +42,7 @@ class AppServiceProvider extends ServiceProvider
             $factory->setPattern('less', new AssetPattern('css/*.css', ['less', '?css_min']));
 
             $factory->setPattern('js', new AssetPattern('js/*.js'));
-            $factory->setPattern('vue', new AssetPattern('js/*.js', ['babel', 'browserify']));
+            $factory->setPattern('vue', new AssetPattern('js/*.js', ['browserify']));
 
             return $factory;
         });

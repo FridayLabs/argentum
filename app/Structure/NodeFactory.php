@@ -2,8 +2,12 @@
 
 namespace App\Structure;
 
+use App\Structure\Node\Node;
+
 class NodeFactory
 {
+    protected $nodeClasses = [];
+
     public function registerNodeClass($type, $nodeClass)
     {
         if (isset($this->nodeClasses[$type])) {

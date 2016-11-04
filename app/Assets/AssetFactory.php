@@ -2,6 +2,8 @@
 
 namespace App\Assets;
 
+use App\Assets\Exception\FileNotFound;
+use App\Assets\Exception\FileNotReadable;
 use App\Assets\Filter\BaseFilter;
 
 class AssetFactory
@@ -52,22 +54,15 @@ class AssetFactory
 
     public function file($pattern, $sourcePath, $name = null, $filters = [])
     {
-        $name = $name ?: $sourcePath;
-
-        if (strpos($sourcePath, '::') !== false) {
-            list($namespace, $path) = explode('::', $sourcePath);
-            if (!isset($this->namespaces[$namespace])) {
-                throw new \Exception('Unknown namespace '.$namespace.' in '.$sourcePath);
-            }
-            $sourcePath = $this->namespaces[$namespace].'/'.$path;
+        if ($name === null) {
+            return $this->file($pattern, $sourcePath, $sourcePath, $filters);
         }
-        $fullSourcePath = realpath(!starts_with($sourcePath, '/') ? $this->assetsDir.'/'.$sourcePath : $sourcePath);
-        if (!file_exists($fullSourcePath)) {
-            throw new \Exception("Source {$sourcePath} is not exists");
+        if (is_array($name)) {
+            return $this->file($pattern, $sourcePath, null, $name);
         }
-        if (!is_readable($fullSourcePath)) {
-            throw new \Exception("Source {$sourcePath} is not readable");
-        }
+        $sourcePath = $this->resolveNamespace($sourcePath);
+        $fullSourcePath = $this->normalizeSourcePath($sourcePath);
+        $this->validatePath($fullSourcePath);
         if (!$pattern instanceof AssetPattern) {
             if (!isset($this->assetPatterns[$pattern])) {
                 throw new \Exception("Unknown asset type {$pattern}");
@@ -75,8 +70,50 @@ class AssetFactory
             $pattern = $this->assetPatterns[$pattern];
         }
 
+        $resultFilters = $this->mergeFilters($pattern->filters(), $filters);
+        $asset = new Asset($name, $fullSourcePath, $pattern->targetPath(), $resultFilters);
+        $asset->setAssetFactory($this);
+
+        return $asset;
+    }
+
+    /**
+     * @param $sourcePath
+     * @return string
+     * @throws \Exception
+     */
+    protected function resolveNamespace($sourcePath)
+    {
+        if (strpos($sourcePath, '::') !== false) {
+            list($namespace, $path) = explode('::', $sourcePath);
+            if (!isset($this->namespaces[$namespace])) {
+                throw new \Exception('Unknown namespace ' . $namespace . ' in ' . $sourcePath);
+            }
+            $sourcePath = $this->namespaces[$namespace] . '/' . $path;
+            return $sourcePath;
+        }
+        return $sourcePath;
+    }
+
+    /**
+     * @param $sourcePath
+     * @return string
+     * @throws \Exception
+     */
+    protected function normalizeSourcePath($sourcePath)
+    {
+        return !starts_with($sourcePath, '/') ? $this->assetsDir . '/' . $sourcePath : $sourcePath;
+    }
+
+    /**
+     * @param $patternFilters
+     * @param $filters
+     * @return array
+     */
+    protected function mergeFilters($patternFilters, $filters)
+    {
         $resultFilters = [];
-        foreach (array_merge($pattern->filters(), $filters) as $filter) {
+        foreach (array_merge($patternFilters, $filters) as $filter) {
             if (!$filter instanceof BaseFilter) {
                 if (is_string($filter) && starts_with($filter, '?') && env('APP_DEBUG', false)) {
                     continue;
@@ -87,9 +124,21 @@ class AssetFactory
                 $resultFilters[] = $filter;
             }
         }
-        $asset = new Asset($name, $fullSourcePath, $pattern->targetPath(), $resultFilters);
-        $asset->setAssetFactory($this);
+        return $resultFilters;
+    }
 
-        return $asset;
+    /**
+     * @param $sourcePath
+     * @param $fullSourcePath
+     * @throws \Exception
+     */
+    protected function validatePath($fullSourcePath)
+    {
+        if (!file_exists($fullSourcePath)) {
+            throw new FileNotFound("Source {$fullSourcePath} is not exists");
+        }
+        if (!is_readable($fullSourcePath)) {
+            throw new FileNotReadable("Source {$fullSourcePath} is not readable");
+        }
     }
 }

@@ -8,7 +8,11 @@
     @endforeach
     <title>{{ $title }}</title>
 </head>
-<body>{!! $content !!}</body>
+<body>
+<div id="app">
+    {!! $content !!}
+</div>
+</body>
 @foreach(scripts_assets() as $script)
     <script src="/static/{{ $script->targetPath() }}"></script>
 @endforeach

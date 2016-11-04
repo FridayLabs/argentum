@@ -3,6 +3,7 @@
 namespace App\Assets\Filter;
 
 use App\Assets\Asset;
+use App\Assets\Exception\ProcessFailed;
 use Symfony\Component\Process\Process;
 
 abstract class ProcessFilter extends BaseFilter
@@ -16,7 +17,12 @@ abstract class ProcessFilter extends BaseFilter
         $process->setInput($asset->content());
         $process->run();
         if (!$process->isSuccessful()) {
-            throw new \Exception('Process error. '.$process->getErrorOutput());
+            throw new ProcessFailed(sprintf(
+                'Process error. File: %s, Filter: %s, Error: %s',
+                $asset->sourcePath(),
+                get_class($this),
+                $process->getErrorOutput()
+            ));
         }
         $asset->setContent($process->getOutput());
 //        trigger_error($process->getOutput());

@@ -2,14 +2,15 @@
 
 namespace App\Structure;
 
-use App\Assets\AssetFactory;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
+use App\Assets\AssetFactory;
+use App\Structure\Node\Node;
 
 class Structure implements Arrayable, Jsonable
 {
     protected $tree;
-    protected $contentSlot;
+    protected $subtreeSlot;
 
     public function __construct($structure)
     {
@@ -19,14 +20,14 @@ class Structure implements Arrayable, Jsonable
         $this->tree = $this->initTree($structure, new Node(Node::ROOT_T));
     }
 
-    public function getTree()
+    public function tree()
     {
         return $this->tree;
     }
 
-    public function getContentSlot()
+    public function subtreeSlot()
     {
-        return $this->contentSlot;
+        return $this->subtreeSlot;
     }
 
     protected function getNodeFactory()
@@ -39,7 +40,7 @@ class Structure implements Arrayable, Jsonable
         foreach ($tree as $nodeData) {
             $node = $this->getNodeFactory()->make($nodeData);
             if ($nodeData['type'] === 'system-content') {
-                $this->contentSlot = $node;
+                $this->subtreeSlot = $node;
             }
             $parent->addChild($node);
             if (isset($nodeData['children'])) {

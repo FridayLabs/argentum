@@ -1,8 +1,7 @@
 <?php
 
-namespace App\Structure;
+namespace App\Structure\Node;
 
-use App\Assets\AssetFactory;
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 
@@ -19,6 +18,11 @@ class Node implements Arrayable, Jsonable
     {
         $this->type = $type;
         $this->config = $config;
+    }
+
+    public static function category()
+    {
+        return 'Basic';
     }
 
     public function type()
@@ -79,32 +83,5 @@ class Node implements Arrayable, Jsonable
     public function toJson($options = 0)
     {
         return json_encode($this->toArray());
-    }
-
-    public function toHtml()
-    {
-        $childrenContent = '';
-        foreach ($this->children() as $child) {
-            $childrenContent .= $child->toHtml();
-        }
-
-        return $childrenContent;
-    }
-
-    public function assets(AssetFactory $factory)
-    {
-        return [
-            $factory->file('css', vendor_path('bower-asset/normalize.css/normalize.css'), 'normalize'),
-        ];
-    }
-
-    public function collectAssets(AssetFactory $factory)
-    {
-        $assets = $this->assets($factory);
-        foreach ($this->children() as $child) {
-            $assets = array_merge($assets, $child->collectAssets($factory));
-        }
-
-        return $assets;
     }
 }

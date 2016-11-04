@@ -3,21 +3,21 @@
 namespace App\Extensions\GridExtension\Nodes;
 
 use App\Assets\AssetFactory;
-use App\Structure\Node;
+use App\Structure\Node\HasOptimizedView;
+use App\Structure\Node\Node;
+use App\Structure\Node\RequiresAssets;
 
-class WidgetColumn extends Node
+class WidgetColumn extends Node implements HasOptimizedView, RequiresAssets
 {
     public function assets(AssetFactory $factory)
     {
         return [
-            $factory->file('less', 'grid::column.less')->dependsOn('less', 'grid::utils.less'),
+            $factory->file('less', 'grid::less/column.less')->dependsOn('less', 'grid::less/utils.less'),
         ];
     }
 
-    public function toHtml()
+    public function optimizedView($childrenContent)
     {
-        $childrenContent = parent::toHtml();
-
         $classes = [];
         $config = $this->config();
 
@@ -34,5 +34,15 @@ class WidgetColumn extends Node
         $classes = implode(' ', $classes);
 
         return "<div class='{$classes}'>{$childrenContent}</div>";
+    }
+
+    public function configurationAsset(AssetFactory $factory)
+    {
+        return $factory->file('vue', 'grid::components/column/column.config.vue');
+    }
+
+    public function componentAsset(AssetFactory $factory)
+    {
+        return $factory->file('vue', 'grid::components/column/column.vue');
     }
 }

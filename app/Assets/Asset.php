@@ -104,13 +104,7 @@ class Asset implements HashableInterface
         if (count(func_get_args()) !== 1) {
             throw new \Exception('Pass exactly one argument to reference asset');
         }
-        foreach ([$assetFactory, $this->assetFactory()] as $factory) {
-            if ($factory) {
-                $this->dependencies[] = (string) $pattern;
-
-                return $this;
-            }
-        }
+        $this->dependencies[] = (string) $pattern;
 
         return $this;
     }

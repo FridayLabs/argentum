@@ -1,4 +1,4 @@
-var VueRouter = require('vue-router');
+Vue.use(VueRouter);
 
 const router = new VueRouter({
     mode: 'history',

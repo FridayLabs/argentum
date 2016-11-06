@@ -59,6 +59,7 @@ class PageComposer
     public function assets(AssetFactory $factory)
     {
         $assets = [
+            $factory->file('css', vendor_path('bower-asset/normalize.css/normalize.css')),
             $factory->file('js', node_path('vue/dist/vue.min.js'), 'vuejs'),
             $factory->file('vue', 'app/app.js', 'app')->dependsOn(
                 $this->componentsAsset($factory)->dependsOn('vuejs')

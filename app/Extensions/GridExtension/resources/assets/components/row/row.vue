@@ -1,9 +1,8 @@
 <template>
-    <div>
-
+    <div class="row">
+        <slot></slot>
     </div>
 </template>
 <script>
-    export default{
-    }
+    export default{}
 </script>

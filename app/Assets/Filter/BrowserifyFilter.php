@@ -25,7 +25,7 @@ class BrowserifyFilter extends ProcessFilter
     protected function buildCommand(Asset $asset)
     {
         $command = $this->nodeExecutable.' '.$this->browserifyExec.
-            ($this->transformers ? ' -t ' . implode(' -t ', $this->transformers) : '') . ' --no-bundle-external -e ' . $asset->sourcePath();
+            ($this->transformers ? ' -t ' . implode(' -t ', $this->transformers) : '') . ' --no-bundle-external -';
         return $command;
     }
 }

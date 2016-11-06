@@ -15,11 +15,11 @@ class Asset implements HashableInterface
     protected $dependencies = [];
     protected $assetFactory;
 
-    public function __construct($name, $sourcePath, $targetPath, array $filters = [])
+    public function __construct($name, $targetPath, $sourcePath = null, array $filters = [])
     {
         $this->name = $name;
-        $this->sourcePath = $sourcePath;
         $this->targetPath = $targetPath;
+        $this->sourcePath = $sourcePath;
         $this->filters = $filters;
     }
 

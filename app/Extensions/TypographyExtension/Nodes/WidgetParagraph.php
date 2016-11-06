@@ -12,7 +12,7 @@ class WidgetParagraph extends Node implements HasOptimizedView
     {
         $content = array_get($this->config(), 'content', '');
 
-        return "<p>{$content}{$childrenContent}</p>";
+        return "<p>{$content}</p>";
     }
 
     public function configurationAsset(AssetFactory $factory)

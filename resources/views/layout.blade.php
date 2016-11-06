@@ -3,7 +3,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    @foreach(styles_assets() as $style)
+    @foreach($styles as $style)
         <link rel="stylesheet" href="/static/{{ $style->targetPath() }}">
     @endforeach
     <title>{{ $title }}</title>
@@ -13,7 +13,7 @@
     {!! $content !!}
 </div>
 </body>
-@foreach(scripts_assets() as $script)
+@foreach($scripts as $script)
     <script src="/static/{{ $script->targetPath() }}"></script>
 @endforeach
 </html>

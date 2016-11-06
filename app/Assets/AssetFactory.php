@@ -63,15 +63,28 @@ class AssetFactory
         $sourcePath = $this->resolveNamespace($sourcePath);
         $fullSourcePath = $this->normalizeSourcePath($sourcePath);
         $this->validatePath($fullSourcePath);
-        if (!$pattern instanceof AssetPattern) {
-            if (!isset($this->assetPatterns[$pattern])) {
-                throw new \Exception("Unknown asset type {$pattern}");
-            }
-            $pattern = $this->assetPatterns[$pattern];
-        }
+        $pattern = $this->getPattern($pattern);
 
         $resultFilters = $this->mergeFilters($pattern->filters(), $filters);
-        $asset = new Asset($name, $fullSourcePath, $pattern->targetPath(), $resultFilters);
+        $asset = new Asset($name, $pattern->targetPath(), $fullSourcePath, $resultFilters);
+        $asset->setAssetFactory($this);
+
+        return $asset;
+    }
+
+    public function string($pattern, $content, $name = null, $filters = [])
+    {
+        if ($name === null) {
+            $name = md5($content);
+        }
+        if (is_array($name)) {
+            return $this->string($pattern, $content, null, $name);
+        }
+        $pattern = $this->getPattern($pattern);
+        $resultFilters = $this->mergeFilters($pattern->filters(), $filters);
+
+        $asset = new Asset($name, $pattern->targetPath(), null, $resultFilters);
+        $asset->setContent($content);
         $asset->setAssetFactory($this);
 
         return $asset;
@@ -140,5 +153,22 @@ class AssetFactory
         if (!is_readable($fullSourcePath)) {
             throw new FileNotReadable("Source {$fullSourcePath} is not readable");
         }
+    }
+
+    /**
+     * @param $pattern
+     * @return AssetPattern
+     * @throws \Exception
+     */
+    protected function getPattern($pattern)
+    {
+        if (!$pattern instanceof AssetPattern) {
+            if (!isset($this->assetPatterns[$pattern])) {
+                throw new \Exception("Unknown asset type {$pattern}");
+            }
+            $pattern = $this->assetPatterns[$pattern];
+            return $pattern;
+        }
+        return $pattern;
     }
 }

@@ -9,7 +9,7 @@
 </head>
 <body>
 <div id="app">
-    <router-view></router-view>
+    <app></app>
 </div>
 
 @foreach($scripts as $script)

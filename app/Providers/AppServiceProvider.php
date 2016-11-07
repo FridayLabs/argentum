@@ -31,6 +31,7 @@ class AppServiceProvider extends ServiceProvider
 
             $browserify = new BrowserifyFilter(node_path('browserify/bin/cmd.js'), $nodeExecutable);
             $browserify->addTransformer('vueify');
+            $browserify->addTransformer('[ babelify --presets [ es2015 ] ]');
             $manager->set('browserify', $browserify);
 
             return $manager;

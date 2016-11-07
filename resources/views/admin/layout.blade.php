@@ -9,10 +9,6 @@
 </head>
 <body>
 <div id="app">
-    <p>
-        <router-link to="/dashboard">Go to Foo</router-link>
-        <router-link to="/login">Go to Bar</router-link>
-    </p>
     <router-view></router-view>
 </div>
 

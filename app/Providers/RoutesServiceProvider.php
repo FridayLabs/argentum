@@ -21,7 +21,7 @@ class RoutesServiceProvider extends ServiceProvider
             );
         }
 
-        $apiRoutesPath = $basePath . 'routes/api.php';
+        $apiRoutesPath = $basePath . '/routes/api.php';
         if (file_exists($apiRoutesPath)) {
             $this->app->group(
                 ['namespace' => $controllersNamespace, 'prefix' => 'api/'],

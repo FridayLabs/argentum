@@ -12,8 +12,7 @@ abstract class ProcessFilter extends BaseFilter
 
     public function dump(Asset $asset)
     {
-        $assetDir = dirname($asset->sourcePath());
-        $process = new Process($this->buildCommand($asset), $assetDir);
+        $process = new Process($this->buildCommand($asset), getcwd());
         $process->setInput($asset->content());
         $process->run();
         if (!$process->isSuccessful()) {
@@ -25,6 +24,5 @@ abstract class ProcessFilter extends BaseFilter
             ));
         }
         $asset->setContent($process->getOutput());
-//        trigger_error($process->getOutput());
     }
 }

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\JWTAuth;
-use Laravel\Lumen\Routing\Controller as Controller;
+use Laravel\Lumen\Routing\Controller;
 
 class AuthController extends Controller
 {
@@ -33,7 +33,7 @@ class AuthController extends Controller
         } catch (\Tymon\JWTAuth\Exceptions\TokenInvalidException $e) {
             return response()->json(['error' => 'token_invalid'], 500);
         } catch (\Tymon\JWTAuth\Exceptions\JWTException $e) {
-            return response()->json(['token_absent' => $e->getMessage()], 500);
+            return response()->json(['error' => 'token_absent', 'message' => $e->getMessage()], 500);
         }
 
         return response()->json(compact('token'));

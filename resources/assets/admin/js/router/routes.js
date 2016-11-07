@@ -5,15 +5,17 @@ const routes = [
     component: resolve =>resolve(require('../views/Home/index.vue'))
   },
   {
-    path: '/profile',
+    path: '/dashboard',
+    name: 'dashboard',
     auth: true,
     meta: {
       requiresAuth: true
     },
-    component: resolve =>resolve(require('../views/Account/Profile.vue'))
+    component: resolve =>resolve(require('../views/Account/Dashboard.vue'))
   },
   {
     path: '/login',
+    name: 'login',
     component: resolve =>resolve(require('../views/Account/Login.vue'))
   },
   {

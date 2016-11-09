@@ -52,12 +52,11 @@
                         .catch(() => this.$validator.errorBag.add('email', 'User not found'))
             },
             shake: function() {
-                console.log(1);
                 this.shakeAnimation = true;
                 var self = this;
                 setTimeout(function() {
                     self.shakeAnimation = false;
-                }, 500);
+                }, 1000);
             },
             getAccount(params) {
                 return this.$store.dispatch('getAccount', params);

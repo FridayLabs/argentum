@@ -81,6 +81,8 @@ class Asset implements HashableInterface
 
     public function dependsOn($pattern, $sourcePath = null, $name = null, $filters = [], AssetFactory $assetFactory = null)
     {
+
+
         // ->(new Asset(...))
         if ($pattern instanceof static) {
             $this->dependencies[] = $pattern;
@@ -104,7 +106,15 @@ class Asset implements HashableInterface
         if (count(func_get_args()) !== 1) {
             throw new \Exception('Pass exactly one argument to reference asset');
         }
-        $this->dependencies[] = (string) $pattern;
+
+        // ->(['name', 'name'])
+        if (is_array($pattern)) {
+            foreach ($pattern as $dependency) {
+                $this->dependsOn($dependency);
+            }
+        } else {
+            $this->dependencies[] = (string)$pattern;
+        }
 
         return $this;
     }

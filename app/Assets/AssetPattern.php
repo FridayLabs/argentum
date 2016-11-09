@@ -18,7 +18,7 @@ class AssetPattern
     /**
      * @return mixed
      */
-    public function targetPath()
+    public function targetPath($sourcePath)
     {
         return $this->targetPath;
     }

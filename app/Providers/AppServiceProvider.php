@@ -12,6 +12,7 @@ use App\Assets\Filter\BrowserifyFilter;
 use App\Assets\Filter\CssMinFilter;
 use App\Assets\Filter\LessFilter;
 use App\Assets\FilterManager;
+use App\Assets\NamePersistentAssetPattern;
 use App\Structure\NodeFactory;
 use Illuminate\Support\ServiceProvider;
 
@@ -41,6 +42,7 @@ class AppServiceProvider extends ServiceProvider
             $factory->setFilterManager($this->app->make(FilterManager::class));
             $factory->setPattern('css', new AssetPattern('css/*.css', ['?css_min']));
             $factory->setPattern('less', new AssetPattern('css/*.css', ['less', '?css_min']));
+            $factory->setPattern('font', new NamePersistentAssetPattern('fonts/*'));
 
             $factory->setPattern('js', new AssetPattern('js/*.js'));
             $factory->setPattern('vue', new AssetPattern('js/*.js', ['browserify']));

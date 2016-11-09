@@ -35,7 +35,7 @@
         },
         computed: {
             redirect () {
-                return this.$route.query.redirect || '/dashboard'
+                return this.$route.query.redirect || '/'
             }
         },
         methods: {

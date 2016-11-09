@@ -1,30 +1,53 @@
-// don't import anything, make sure it's just config
 const routes = [
     {
         path: '/',
-        component: resolve => resolve(require('../views/Home/index.vue'))
+        auth: true,
+        meta: {requiresAuth: true},
+        component: resolve => resolve(require('../views/Project/List.vue'))
     },
     {
-        path: '/dashboard',
-        name: 'dashboard',
+        path: '/project/:project_id',
+        name: 'project',
         auth: true,
-        meta: {
-            requiresAuth: true
-        },
-        component: resolve => resolve(require('../views/Account/Dashboard.vue'))
+        meta: {requiresAuth: true},
+        component: resolve => resolve(require('../views/Project/Details.vue')),
+    },
+    {
+        path: '/project/:project_id/settings',
+        name: 'project_settings',
+        auth: true,
+        meta: {requiresAuth: true},
+        component: resolve => resolve(require('../views/Project/Settings.vue')),
+    },
+    {
+        path: '/project/:project_id/page/:id',
+        name: 'page',
+        auth: true,
+        meta: {requiresAuth: true},
+        component: resolve => resolve(require('../views/Page/Builder.vue')),
+    },
+    {
+        path: '/project/:project_id/page/:id/settings',
+        name: 'page_settings',
+        auth: true,
+        meta: {requiresAuth: true},
+        component: resolve => resolve(require('../views/Page/Settings.vue')),
     },
     {
         path: '/login',
         name: 'login',
-        component: resolve => resolve(require('../views/Account/Login.vue'))
+        component: resolve => resolve(require('../views/auth/Login.vue'))
     },
     {
         path: '/logout',
-        component: resolve => resolve(require('../views/Account/Logout.vue'))
+        redirect: function (to) {
+            require('../vuex').default.dispatch('logout');
+            return {path: '/login'}
+        }
     },
     {
         path: '*',
-        redirect: '/'
+        component: resolve => resolve(require('../views/404.vue'))
     }
 ]
 

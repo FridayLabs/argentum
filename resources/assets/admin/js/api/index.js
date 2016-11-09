@@ -1,4 +1,3 @@
-
 import Vue from 'vue'
 import VueResource from 'vue-resource'
 
@@ -27,3 +26,5 @@ export const Auth = Vue.resource(API_ROOT + '/auth', {}, {
     url: '/api/auth/login'
   }
 })
+
+export const Projects = Vue.resource(API_ROOT + '/projects', {})

@@ -1,6 +1,18 @@
 import * as API from '../api'
 import * as types from './types'
 
+export function getProjects ({commit, state}, params) {
+  return API.Account.get(params)
+      .then((response) => {
+        commit(types.GET_ACCOUNT_SUCCESS, response.body)
+        return Promise.resolve(response)
+      })
+      .catch((response) => {
+        commit(types.GET_ACCOUNT_FAIL, response.body)
+        return Promise.reject(response)
+      })
+}
+
 export function getAccount ({commit, state}, params) {
   return API.Account.get(params)
   .then((response) => {

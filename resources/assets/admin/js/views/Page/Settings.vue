@@ -1,6 +1,6 @@
 <template>
-<div class="view-profile">
-	view profile
+<div class="projects">
+	page settings
 </div>
 </template>
 

@@ -49,7 +49,10 @@
                 this.callLogin()
                         .then((response) => this.getAccount({id: 'me'}))
                         .then((response) => this.$router.push(this.redirect))
-                        .catch(() => this.$validator.errorBag.add('email', 'User not found'))
+                        .catch(() => {
+                            this.$validator.errorBag.add('email', 'User not found');
+                            this.shake();
+                        })
             },
             shake: function() {
                 this.shakeAnimation = true;

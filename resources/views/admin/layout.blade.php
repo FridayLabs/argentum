@@ -8,7 +8,7 @@
     @endforeach
 </head>
 <body>
-<div id="app">
+<div id="app" class="app">
     <app></app>
 </div>
 

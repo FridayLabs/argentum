@@ -22,7 +22,7 @@ on the similarity https://vkrasnoperov.me (without custom styles)
 
 Base project settings:
 - Name
-- ...
+- domain (foobar.argentum.dev)
 
 Base page settings:
 - name

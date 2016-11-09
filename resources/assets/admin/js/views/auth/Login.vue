@@ -1,9 +1,9 @@
 <template>
     <CenterContent>
-        <h1 class="logo text-center">Argentum</h1>
         <div class="container">
             <div class="row">
-                <div class="col-md-4 col-md-offset-4 col-sm-6 col-sm-offset-3 col-xs-8 col-xs-offset-2">
+                <div :class="['col-md-4', 'col-md-offset-4', 'col-sm-6', 'col-sm-offset-3', 'col-xs-8', 'col-xs-offset-2', shakeAnimation ? 'shake': '']">
+                    <h1 class="logo text-center">Argentum</h1>
                     <form @submit.prevent="login()">
                         <div :class="['form-group-lg', errors.has('email') ? 'has-error': '']">
                             <input class="form-control" type="email" placeholder="Your Email"
@@ -15,7 +15,7 @@
                                    v-model="password" v-validate.initial="password" data-rules="required">
                             <span v-if="errors.has('password')" class="help-block">{{errors.first('password')}}</span>
                         </div>
-                        <div class="form-group-lg">
+                        <div class="form-group-lg text-right">
                             <button class="btn btn-primary">Login</button>
                         </div>
                     </form>
@@ -30,7 +30,8 @@
         data () {
             return {
                 email: '',
-                password: ''
+                password: '',
+                shakeAnimation: false
             }
         },
         computed: {
@@ -41,11 +42,22 @@
         methods: {
             login () {
                 this.$validator.validateAll()
-                if (this.errors.any()) return
+                if (this.errors.any()) {
+                    this.shake();
+                    return;
+                }
                 this.callLogin()
                         .then((response) => this.getAccount({id: 'me'}))
                         .then((response) => this.$router.push(this.redirect))
                         .catch(() => this.$validator.errorBag.add('email', 'User not found'))
+            },
+            shake: function() {
+                console.log(1);
+                this.shakeAnimation = true;
+                var self = this;
+                setTimeout(function() {
+                    self.shakeAnimation = false;
+                }, 500);
             },
             getAccount(params) {
                 return this.$store.dispatch('getAccount', params);

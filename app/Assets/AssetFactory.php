@@ -83,7 +83,7 @@ class AssetFactory
         $pattern = $this->getPattern($pattern);
         $resultFilters = $this->mergeFilters($pattern->filters(), $filters);
 
-        $asset = new Asset($name, $pattern->targetPath(), null, $resultFilters);
+        $asset = new Asset($name, $pattern->targetPath(null), null, $resultFilters);
         $asset->setContent($content);
         $asset->setAssetFactory($this);
 

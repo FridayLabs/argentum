@@ -20,12 +20,5 @@ export default {
   store,
   components: {
   },
-  methods: {
-    loggedIn () {
-      return this.$store.getters.loggedIn;
-    }
-  },
-  created () {
-  }
 }
 </script>

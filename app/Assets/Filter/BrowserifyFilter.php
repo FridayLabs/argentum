@@ -26,7 +26,7 @@ class BrowserifyFilter extends ProcessFilter
     {
         $command = $this->nodeExecutable.' '.$this->browserifyExec.
             ($this->transformers ? ' -t ' . implode(' -t ', $this->transformers) : '') .
-            ' -e ' . $asset->sourcePath();
+            ($asset->sourcePath() ? ' -e ' . $asset->sourcePath() : ' - ');
         return $command;
     }
 }

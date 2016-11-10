@@ -11,37 +11,37 @@ use Prophecy\Argument;
 
 class AssetSpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith('foo', realpath(__DIR__ . '/../../fixtures/assets/foo'), '/tmp/*', [new LessFilter()]);
     }
 
-    function it_is_initializable()
+    public function it_is_initializable()
     {
         $this->shouldHaveType(Asset::class);
     }
 
-    function it_has_name()
+    public function it_has_name()
     {
         $this->name()->shouldBeEqualTo('foo');
     }
 
-    function it_has_source_path()
+    public function it_has_source_path()
     {
         $this->sourcePath()->shouldBeEqualTo(realpath(__DIR__ . '/../../fixtures/assets/foo'));
     }
 
-    function it_has_content_from_file()
+    public function it_has_content_from_file()
     {
         $this->content()->shouldBeEqualTo('foo');
     }
 
-    function it_has_filters()
+    public function it_has_filters()
     {
         $this->filters()->shouldBeLike([new LessFilter()]);
     }
 
-    function it_generates_unique_target_path()
+    public function it_generates_unique_target_path()
     {
         $assets = [
             new Asset('foo', realpath(__DIR__ . '/../../fixtures/assets/baz'), '/tmp/*', [new LessFilter()]),
@@ -53,12 +53,12 @@ class AssetSpec extends ObjectBehavior
         }
     }
 
-    function it_can_depend_on_other_assets()
+    public function it_can_depend_on_other_assets()
     {
         $this->dependsOn(new Asset('foo', realpath(__DIR__ . '/../../fixtures/assets/baz'), '/tmp/*', [new LessFilter()]));
     }
 
-    function it_can_depend_by_name_or_source()
+    public function it_can_depend_by_name_or_source()
     {
         $this->dependsOn('bar');
         $this->dependencies()->shouldHaveCount(1);
@@ -66,7 +66,7 @@ class AssetSpec extends ObjectBehavior
         $this->dependencies()->shouldHaveCount(2);
     }
 
-    function it_can_construct_asset_by_given_params_while_depending_on_it()
+    public function it_can_construct_asset_by_given_params_while_depending_on_it()
     {
         $path = realpath(__DIR__ . '/../../fixtures/assets/baz');
         $factory = new AssetFactory(dirname($path));
@@ -76,7 +76,7 @@ class AssetSpec extends ObjectBehavior
         $this->dependencies()->shouldHaveCount(1);
     }
 
-    function it_can_construct_asset_by_given_params_and_factory_while_depending_on_it()
+    public function it_can_construct_asset_by_given_params_and_factory_while_depending_on_it()
     {
         $path = realpath(__DIR__ . '/../../fixtures/assets/baz');
         $factory = new AssetFactory(dirname($path));

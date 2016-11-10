@@ -14,18 +14,18 @@ use Prophecy\Argument;
 
 class AssetFactorySpec extends ObjectBehavior
 {
-    function let()
+    public function let()
     {
         $this->beConstructedWith(realpath(__DIR__ . '/../../fixtures/assets'));
         $this->setPattern('plain', new AssetPattern('/tmp/*'));
     }
 
-    function it_fail_if_file_not_found()
+    public function it_fail_if_file_not_found()
     {
         $this->shouldThrow(FileNotFound::class)->during('file', ['plain', 'lolwut']);
     }
 
-    function it_can_have_filter_manager()
+    public function it_can_have_filter_manager()
     {
         $fm = new FilterManager();
         $fm->set('less', new LessFilter());
@@ -33,24 +33,24 @@ class AssetFactorySpec extends ObjectBehavior
         $this->setFilterManager($fm);
     }
 
-    function it_creates_named_assets()
+    public function it_creates_named_assets()
     {
         $asset = $this->file('plain', 'foo', 'lol');
         $asset->name()->shouldBeEqualTo('lol');
     }
 
-    function it_use_source_path_as_name_if_name_is_null()
+    public function it_use_source_path_as_name_if_name_is_null()
     {
         $asset = $this->file('plain', 'foo');
         $asset->name()->shouldBeEqualTo('foo');
     }
 
-    function it_have_asset_patterns()
+    public function it_have_asset_patterns()
     {
         $this->setPattern('css', new AssetPattern('/tmp/*.css', ['less']));
     }
 
-    function it_creates_assets_by_patterns()
+    public function it_creates_assets_by_patterns()
     {
         $filter = new LessFilter();
 
@@ -66,7 +66,7 @@ class AssetFactorySpec extends ObjectBehavior
         $asset->targetPath()->shouldEndWith('.css');
     }
 
-    function it_merges_filters()
+    public function it_merges_filters()
     {
         $filter = new LessFilter();
         $newFilter = new LessFilter();
@@ -81,7 +81,7 @@ class AssetFactorySpec extends ObjectBehavior
         $asset->filters()->shouldBeEqualTo([$filter, $newFilter]);
     }
 
-    function it_resolves_filters_by_they_name_from_filter_manager()
+    public function it_resolves_filters_by_they_name_from_filter_manager()
     {
         $filter = new LessFilter();
         $newFilter = new LessFilter();
@@ -97,12 +97,12 @@ class AssetFactorySpec extends ObjectBehavior
         $asset->filters()->shouldContain($newFilter);
     }
 
-    function it_can_have_namespaces()
+    public function it_can_have_namespaces()
     {
         $this->setNamespace('kek', realpath(__DIR__ . '/../../fixtures/assets/kek'));
     }
 
-    function it_resolves_paths_by_namespace()
+    public function it_resolves_paths_by_namespace()
     {
         $this->setNamespace('kek', realpath(__DIR__ . '/../../fixtures/assets/kek'));
 
@@ -110,7 +110,7 @@ class AssetFactorySpec extends ObjectBehavior
         $asset->sourcePath()->shouldEndWith('fixtures/assets/kek/lol');
     }
 
-    function it_passes_self_to_asset()
+    public function it_passes_self_to_asset()
     {
         $asset = $this->file('plain', 'foo');
         $asset->assetFactory()->shouldBeEqualTo($this);

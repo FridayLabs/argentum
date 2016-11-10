@@ -77,7 +77,7 @@ class AssetManager
                     if ($this->has($dependency)) {
                         $asset->resolveDependency($dependency, $this->get($dependency));
                     } else {
-                        throw new \Exception('Unknown dependency '.$dependency);
+                        throw new \Exception('Unknown dependency ' . $dependency);
                     }
                 } else {
                     $this->resolveDependencies($dependency);

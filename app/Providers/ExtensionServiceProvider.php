@@ -15,7 +15,7 @@ class ExtensionServiceProvider extends ServiceProvider
             foreach (config('extensions') as $extensionClass) {
                 $ext = new $extensionClass($this->app);
                 if (!$ext instanceof Extension) {
-                    throw new \Exception($ext.' should extend '.Extension::class.' class');
+                    throw new \Exception($ext . ' should extend ' . Extension::class . ' class');
                 }
                 $extensions[$ext->name()] = $ext;
             }

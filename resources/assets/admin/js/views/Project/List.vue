@@ -70,7 +70,11 @@
 
 <style>
     .header {
-        margin-bottom: 20px;
+        margin: 20px 0 40px;
+        align-items: center;
+    }
+    .header h2 {
+        margin: 0;
     }
 
     .project .panel-body {

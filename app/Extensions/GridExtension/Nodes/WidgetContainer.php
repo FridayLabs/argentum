@@ -19,7 +19,7 @@ class WidgetContainer extends Node implements HasOptimizedView, RequiresAssets
     public function optimizedView($childrenContent)
     {
         $isFullWidth = array_get($this->config(), 'isFullWidth', false);
-        $class = 'container'.($isFullWidth ? '-fluid' : '');
+        $class = 'container' . ($isFullWidth ? '-fluid' : '');
 
         return "<div class='{$class}'>{$childrenContent}</div>";
     }

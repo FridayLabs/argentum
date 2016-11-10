@@ -29,7 +29,7 @@ abstract class Extension extends RoutesServiceProvider
     public function basePath($path = '')
     {
         if (isset($this->basePath)) {
-            return $this->basePath.($path ? '/'.$path : $path);
+            return $this->basePath . ($path ? '/' . $path : $path);
         }
         $class = new \ReflectionClass(get_class($this));
         $this->basePath = dirname($class->getFileName());
@@ -41,7 +41,7 @@ abstract class Extension extends RoutesServiceProvider
     {
         $class = new \ReflectionClass(get_class($this));
 
-        $this->loadRoutes($class->getNamespaceName().'\Http\Controllers', $this->basePath());
+        $this->loadRoutes($class->getNamespaceName() . '\Http\Controllers', $this->basePath());
         $this->loadMigrationsFrom($this->basePath('database/migrations'));
         $this->loadTranslationsFrom($this->basePath('translations'), $this->name());
         app(AssetFactory::class)->setNamespace($this->name(), $this->basePath('resources/assets'));

@@ -21,7 +21,7 @@ class FilesystemAssetWriter extends AssetWriter
     public function writeAsset(Asset $asset)
     {
         $content = $asset->dump();
-        $path = $this->outputDir.'/'.$asset->targetPath();
+        $path = $this->outputDir . '/' . $asset->targetPath();
         $dir = dirname($path);
         if (!@mkdir($dir, 0777, true) && !is_dir($dir)) {
             throw new \Exception("Can't create dir {$dir}");

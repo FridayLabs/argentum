@@ -24,8 +24,8 @@ class BabelFilter extends ProcessFilter
 
     protected function buildCommand(Asset $asset)
     {
-        $command = $this->nodeExecutable.' '.$this->babelExecutable.
-            ($this->presets ? ' --presets='.implode(',', $this->presets) : '');
+        $command = $this->nodeExecutable . ' ' . $this->babelExecutable .
+            ($this->presets ? ' --presets=' . implode(',', $this->presets) : '');
         return $command;
     }
 }

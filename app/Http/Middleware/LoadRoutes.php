@@ -20,7 +20,7 @@ class LoadRoutes
         $pages = Page::all();
         foreach ($pages as $page) {
             $alias = $page->alias === 'index' ? '' : $page->alias;
-            app()->get('/'.$alias, [
+            app()->get('/' . $alias, [
                 'as' => $page->alias,
                 function () use ($request, $page) {
                     $controller = app()->make(Controller::class);

@@ -14,8 +14,7 @@ if (! function_exists('bcrypt')) {
     }
 }
 
-if ( ! function_exists('config_path'))
-{
+if (! function_exists('config_path')) {
     /**
      * Get the configuration path.
      *
@@ -47,7 +46,7 @@ if (!function_exists('resource_path')) {
     {
         $path = path($path);
 
-        return $path[0].'/resources'.($path[1] ? '/'.$path[1] : $path[1]);
+        return $path[0] . '/resources' . ($path[1] ? '/' . $path[1] : $path[1]);
     }
 }
 
@@ -56,7 +55,7 @@ if (!function_exists('node_path')) {
     {
         $path = path($path);
 
-        return $path[0].'/node_modules'.($path[1] ? '/'.$path[1] : $path[1]);
+        return $path[0] . '/node_modules' . ($path[1] ? '/' . $path[1] : $path[1]);
     }
 }
 
@@ -65,7 +64,7 @@ if (!function_exists('vendor_path')) {
     {
         $path = path($path);
 
-        return $path[0].'/vendor'.($path[1] ? '/'.$path[1] : $path[1]);
+        return $path[0] . '/vendor' . ($path[1] ? '/' . $path[1] : $path[1]);
     }
 }
 

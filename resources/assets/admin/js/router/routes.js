@@ -12,6 +12,13 @@ const routes = [
                 component: resolve => resolve(require('../views/Project/List.vue'))
             },
             {
+                path: '/project/create',
+                name: 'project_create',
+                auth: true,
+                meta: {requiresAuth: true},
+                component: resolve => resolve(require('../views/Project/Create.vue'))
+            },
+            {
                 path: '/project/:project_id',
                 name: 'project',
                 auth: true,

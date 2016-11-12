@@ -1,15 +1,10 @@
 <template>
     <div class="container">
-        <div class="row-flex header">
-            <div class="col-xs-6">
-                <h2>My Websites</h2>
-            </div>
-            <div class="col-xs-6 text-right">
-                <a class="btn btn-success">
-                    <i class="fa fa-plus" aria-hidden="true"></i> Start new website
-                </a>
-            </div>
-        </div>
+        <PageHeader title="My websites">
+            <router-link :to="{name: 'project_create'}" class="btn btn-success">
+                <i class="fa fa-plus" aria-hidden="true"></i> Start new website
+            </router-link>
+        </PageHeader>
         <div class="row">
             <div v-for="project in projects" class="col-xs-6">
                 <div class="panel panel-default project">
@@ -69,14 +64,6 @@
 </script>
 
 <style>
-    .header {
-        margin: 20px 0 40px;
-        align-items: center;
-    }
-    .header h2 {
-        margin: 0;
-    }
-
     .project .panel-body {
         color: #666666;
         padding: 20px;

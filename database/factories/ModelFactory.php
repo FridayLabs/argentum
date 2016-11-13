@@ -73,3 +73,19 @@ $factory->define(App\Models\Page::class, function (Faker\Generator $faker) {
         ]),
     ];
 });
+
+$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->name,
+        'email' => $faker->email,
+        'password' => bcrypt($faker->password)
+    ];
+});
+
+$factory->define(App\Models\Project::class, function (Faker\Generator $faker) {
+    return [
+        'title' => $faker->name,
+        'domain' => str_random(5) . '.argentum.dev',
+        'description' => mt_rand(0, 1) ? $faker->paragraph : ''
+    ];
+});

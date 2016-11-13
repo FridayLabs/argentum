@@ -9,6 +9,11 @@ class Page extends Model
 {
     use HasStructureAttribute;
 
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
+
     public function layout()
     {
         return $this->belongsTo(Layout::class);

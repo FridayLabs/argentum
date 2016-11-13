@@ -40,4 +40,9 @@ class User extends Model implements JWTSubject, AuthenticatableContract, Authori
     {
         return [];
     }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class);
+    }
 }

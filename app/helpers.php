@@ -14,6 +14,20 @@ if (! function_exists('bcrypt')) {
     }
 }
 
+if (! function_exists('bcrypt')) {
+    /**
+     * Hash the given value.
+     *
+     * @param  string  $value
+     * @param  array   $options
+     * @return string
+     */
+    function bcrypt($value, $options = [])
+    {
+        return app('hash')->make($value, $options);
+    }
+}
+
 if (! function_exists('config_path')) {
     /**
      * Get the configuration path.

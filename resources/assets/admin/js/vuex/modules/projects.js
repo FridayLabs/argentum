@@ -8,13 +8,15 @@ const state = {
 const mutations = {
   [types.GET_PROJECTS_LIST_SUCCESS] (state, data) {
     state.error = false;
-    state.projects = data.projects
+    state.projects = data
   },
   [types.GET_PROJECTS_LIST_FAIL] (state, err) {
-    console.log(err);
     state.error = true;
     state.projects = []
   },
+  [types.CRETE_PROJECT] (state, data) {
+    state.projects.push(data)
+  }
 }
 
 export default {

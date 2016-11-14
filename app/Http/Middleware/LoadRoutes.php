@@ -3,7 +3,7 @@
 namespace App\Http\Middleware;
 
 use App\Http\Controllers\Controller;
-use App\Models\Page;
+use App\Models\Project;
 
 class LoadRoutes
 {
@@ -17,8 +17,8 @@ class LoadRoutes
      */
     public function handle($request, \Closure $next)
     {
-        $pages = Page::all();
-        foreach ($pages as $page) {
+        $project = Project::where('domain', $request->getHost())->firstOrFail();
+        foreach ($project->pages()->get() as $page) {
             $alias = $page->alias === 'index' ? '' : $page->alias;
             app()->get('/' . $alias, [
                 'as' => $page->alias,

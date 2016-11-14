@@ -10,7 +10,7 @@
                 <div class="panel panel-default project">
                     <router-link :to="{name: 'project', params: {project_id : project.id}}">
                         <div class="panel-body">
-                            <h3>{{project.name}}</h3>
+                            <h3>{{project.title}}</h3>
                             <p>{{project.description}}</p>
                         </div>
                     </router-link>
@@ -47,19 +47,14 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
     export default {
-        data() {
-            return {
-                projects: [
-                    {
-                        id: 123,
-                        name: 'Foobar',
-                        description: 'test website NENASTOYASHIY',
-                        domain: 'foobar.argentum.com',
-                    }
-                ]
-            };
-        }
+        created() {
+            this.$store.dispatch('getProjects');
+        },
+        computed: mapState({
+            projects: state => state.projects.projects,
+        })
     }
 </script>
 

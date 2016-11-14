@@ -1,10 +1,11 @@
 <?php
 
-$app->post('auth/login', 'Api\AuthController@postLogin');
+$app->post('auth/login', 'Api\AuthController@login');
+$app->post('auth/refreshToken', 'Api\AuthController@refreshToken');
 
-$app->group(['middleware' => 'auth'], function ($app) {
+$app->group(['middleware' => ['auth']], function ($app) {
     $app->get('users/me', function () {
-        return \Tymon\JWTAuth\Facades\JWTAuth::parseToken()->authenticate();
+        return app('auth')->user();
     });
-    $app->get('projects', 'Api\ProjectController@list');
+    $app->resource('project', 'Api\ProjectController');
 });

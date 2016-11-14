@@ -14,17 +14,30 @@ Vue.http.interceptors.push((request, next) => {
   request.headers = request.headers || {}
   request.headers.set('Authorization', token)
   next((response) => {
-    return response
+    if (response.status == 401 && response.body.error == 'token_expired') {
+      Auth.refreshToken({token: window.localStorage.getItem('token') || ''}).then((resp) => {
+        window.localStorage.setItem('token', resp.body.token)
+      });
+      return next((response) => {
+        return response;
+      })
+    } else {
+      return response
+    }
   })
 })
 
-export const Account = Vue.resource(API_ROOT + '/users/{/id}')
+export const Account = Vue.resource(API_ROOT + '/users{/id}')
+
+export const Project = Vue.resource(API_ROOT + '/project{/id}')
 
 export const Auth = Vue.resource(API_ROOT + '/auth', {}, {
   login: {
     method: 'post',
     url: '/api/auth/login'
-  }
+  },
+  refreshToken: {
+    method: 'post',
+    url: '/api/auth/refreshToken'
+  },
 })
-
-export const Projects = Vue.resource(API_ROOT + '/projects', {})

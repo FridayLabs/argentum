@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Assets\Filter;
+namespace Argentum\Assets\Filter;
 
-use App\Assets\Asset;
-use App\Assets\Exception\ProcessFailed;
+use Argentum\Assets\Asset;
+use Argentum\Assets\Exception\ProcessFailed;
 use Symfony\Component\Process\Process;
 
 abstract class ProcessFilter extends BaseFilter

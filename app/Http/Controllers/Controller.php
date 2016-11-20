@@ -1,29 +1,30 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Argentum\Http\Controllers;
 
-use App\Assets\AssetFactory;
-use App\Assets\AssetManager;
-use App\Composer\PageComposer;
-use App\Jobs\AssetsCompilationJob;
-use App\Models\Page;
-use App\Structure\Structure;
-use Laravel\Lumen\Routing\Controller as BaseController;
+use Argentum\Assets\AssetFactory;
+use Argentum\Assets\AssetManager;
+use Argentum\Composer\PageComposer;
+use Argentum\Jobs\CompilePageAssets;
+use Argentum\Model\Page;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 
 class Controller extends BaseController
 {
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
     public function displayPage(Page $page)
     {
-        /**
-         * @var Structure
-         */
         $structure = $page->getStructureWithLayout();
 
         $composer = new PageComposer($structure);
         $manager = app(AssetManager::class);
         $manager->addAssets($composer->assets(app(AssetFactory::class)));
 
-        dispatch(new AssetsCompilationJob($page));
+        $this->dispatch(new CompilePageAssets($page)); // dev only
 
         return view('layout', [
             'title' => $page->title,

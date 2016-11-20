@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Assets;
+namespace Argentum\Assets;
 
 abstract class AssetWriter
 {

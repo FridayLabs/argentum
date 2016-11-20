@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Assets\Filter;
+namespace Argentum\Assets\Filter;
 
-use App\Assets\Asset;
-use App\Assets\HashableInterface;
+use Argentum\Assets\Asset;
+use Argentum\Assets\HashableInterface;
 
 abstract class BaseFilter implements HashableInterface
 {

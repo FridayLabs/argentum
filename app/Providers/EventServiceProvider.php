@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Providers;
+namespace Argentum\Providers;
 
-use Laravel\Lumen\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Support\Facades\Event;
+use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -12,8 +13,20 @@ class EventServiceProvider extends ServiceProvider
      * @var array
      */
     protected $listen = [
-        'App\Events\SomeEvent' => [
-            'App\Listeners\EventListener',
+        'Argentum\Events\SomeEvent' => [
+            'Argentum\Listeners\EventListener',
         ],
     ];
+
+    /**
+     * Register any events for your application.
+     *
+     * @return void
+     */
+    public function boot()
+    {
+        parent::boot();
+
+        //
+    }
 }

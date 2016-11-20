@@ -1,0 +1,15 @@
+{
+    "name": "fridaylabs/grid",
+    "description": "",
+    "authors": [
+        {
+            "name": "Vitaliy Krasnoperov",
+            "email": "alistar.neron@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Modules\\Grid\\": ""
+        }
+    }
+}

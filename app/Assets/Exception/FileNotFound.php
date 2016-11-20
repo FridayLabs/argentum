@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Assets\Exception;
+namespace Argentum\Assets\Exception;
 
 class FileNotFound extends \Exception
 {

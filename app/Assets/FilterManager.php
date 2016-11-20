@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Assets;
+namespace Argentum\Assets;
 
-use App\Assets\Filter\BaseFilter;
+use Argentum\Assets\Filter\BaseFilter;
 
 class FilterManager
 {

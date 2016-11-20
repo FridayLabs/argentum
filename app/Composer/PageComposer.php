@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Composer;
+namespace Argentum\Composer;
 
-use App\Assets\AssetFactory;
-use App\Structure\Node\HasView;
-use App\Structure\Node\Node;
-use App\Structure\Node\RequiresAssets;
-use App\Structure\Structure;
+use Argentum\Assets\AssetFactory;
+use Argentum\Structure\Node\HasView;
+use Argentum\Structure\Node\Node;
+use Argentum\Structure\Node\RequiresAssets;
+use Argentum\Structure\Structure;
 
 class PageComposer
 {

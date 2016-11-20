@@ -17,21 +17,21 @@ class ProjectSeeder extends Seeder
         DB::table('layouts')->delete();
         DB::table('pages')->delete();
 
-        $user = \App\Models\User::where('email', 'admin@admin.com')->first();
-        $project = factory(\App\Models\Project::class, 1)->create([
+        $user = Argentum\Model\User::where('email', 'admin@admin.com')->first();
+        $project = factory(Argentum\Model\Project::class, 1)->create([
             'domain' => 'website.argentum.dev'
         ]);
 
-        $layoutId = factory(\App\Models\Layout::class, 1)->create([
+        $layoutId = factory(Argentum\Model\Layout::class, 1)->create([
             'project_id' => $project->id,
         ])->id;
-        factory(\App\Models\Page::class)->create([
+        factory(Argentum\Model\Page::class)->create([
             'project_id' => $project->id,
             'layout_id' => $layoutId,
             'alias'     => 'index',
             'title'     => 'Home',
         ]);
-        factory(\App\Models\Page::class, 5)->create([
+        factory(Argentum\Model\Page::class, 5)->create([
             'project_id' => $project->id,
             'layout_id' => $layoutId,
         ]);

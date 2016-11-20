@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Structure;
+namespace Argentum\Structure;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
-use App\Assets\AssetFactory;
-use App\Structure\Node\Node;
+use Argentum\Assets\AssetFactory;
+use Argentum\Structure\Node\Node;
 
 class Structure implements Arrayable, Jsonable
 {
@@ -38,7 +38,8 @@ class Structure implements Arrayable, Jsonable
     protected function initTree(array $tree, Node $parent)
     {
         foreach ($tree as $nodeData) {
-            $node = $this->getNodeFactory()->make($nodeData);
+            $type = app()->isAlias($nodeData['type']) ? $nodeData['type'] : Node::class;
+            $node = app()->make($type, [$nodeData['type'], array_get($nodeData, 'config', [])]);
             if ($nodeData['type'] === 'system-content') {
                 $this->subtreeSlot = $node;
             }

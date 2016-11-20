@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Structure\Node;
+namespace Argentum\Structure\Node;
 
 interface HasOptimizedView extends HasView
 {

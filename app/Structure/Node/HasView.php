@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Structure\Node;
+namespace Argentum\Structure\Node;
 
-use App\Assets\Asset;
-use App\Assets\AssetFactory;
+use Argentum\Assets\Asset;
+use Argentum\Assets\AssetFactory;
 
 interface HasView
 {

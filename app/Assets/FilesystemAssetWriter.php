@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Assets;
+namespace Argentum\Assets;
 
 class FilesystemAssetWriter extends AssetWriter
 {

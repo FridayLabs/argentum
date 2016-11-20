@@ -13,7 +13,7 @@ class UsersSeeder extends Seeder
     public function run()
     {
         DB::table('users')->delete();
-        factory(\App\Models\User::class, 1)->create([
+        factory(Argentum\Model\User::class, 1)->create([
             'email' => 'admin@admin.com',
             'password' => bcrypt('admin')
         ]);

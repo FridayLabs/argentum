@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Assets\Filter;
+namespace Argentum\Assets\Filter;
 
-use App\Assets\Asset;
+use Argentum\Assets\Asset;
 
 class BabelFilter extends ProcessFilter
 {

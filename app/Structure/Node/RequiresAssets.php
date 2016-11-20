@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Structure\Node;
+namespace Argentum\Structure\Node;
 
-use App\Assets\AssetFactory;
+use Argentum\Assets\AssetFactory;
 
 interface RequiresAssets
 {

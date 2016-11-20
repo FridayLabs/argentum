@@ -1,13 +1,13 @@
 <?php
 
-$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+$factory->define(Argentum\Model\User::class, function (Faker\Generator $faker) {
     return [
         'name'  => $faker->name,
         'email' => $faker->email,
     ];
 });
 
-$factory->define(App\Models\Layout::class, function (Faker\Generator $faker) {
+$factory->define(Argentum\Model\Layout::class, function (Faker\Generator $faker) {
     return [
         'structure' => json_encode([
             ['type' => 'widget-header', 'children' => [
@@ -49,7 +49,7 @@ $factory->define(App\Models\Layout::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\Page::class, function (Faker\Generator $faker) {
+$factory->define(Argentum\Model\Page::class, function (Faker\Generator $faker) {
     $name = $faker->sentence(3);
 
     return [
@@ -74,7 +74,7 @@ $factory->define(App\Models\Page::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\User::class, function (Faker\Generator $faker) {
+$factory->define(Argentum\Model\User::class, function (Faker\Generator $faker) {
     return [
         'name' => $faker->name,
         'email' => $faker->email,
@@ -82,10 +82,10 @@ $factory->define(App\Models\User::class, function (Faker\Generator $faker) {
     ];
 });
 
-$factory->define(App\Models\Project::class, function (Faker\Generator $faker) {
+$factory->define(Argentum\Model\Project::class, function (Faker\Generator $faker) {
     return [
         'title' => $faker->name,
-        'domain' => str_random(5) . '.argentum.dev',
+        'domain' => str_random(5) . '.Argentum.dev',
         'description' => mt_rand(0, 1) ? $faker->paragraph : ''
     ];
 });

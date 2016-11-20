@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Structure\Node;
+namespace Argentum\Structure\Node;
 
 use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Contracts\Support\Jsonable;
 
 class Node implements Arrayable, Jsonable
 {
-    const ROOT_T = 'system-root';
+    const ROOT_T = '__root__';
 
     protected $type;
     protected $config;

@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Assets;
+namespace Argentum\Assets;
 
-use App\Assets\Exception\FileNotFound;
-use App\Assets\Exception\FileNotReadable;
-use App\Assets\Filter\BaseFilter;
+use Argentum\Assets\Exception\FileNotFound;
+use Argentum\Assets\Exception\FileNotReadable;
+use Argentum\Assets\Filter\BaseFilter;
 
 class AssetFactory
 {

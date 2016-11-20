@@ -50,7 +50,7 @@ class AssetsServiceProvider extends ServiceProvider
             $manager->set('browserify', $browserify);
 
             return $manager;
-        });g
+        });
         $this->app->singleton(AssetFactory::class, function () {
             $factory = new AssetFactory(resource_path('assets'));
             $factory->setFilterManager($this->app->make(FilterManager::class));

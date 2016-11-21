@@ -44,7 +44,7 @@ return [
         Argentum\Providers\EventServiceProvider::class,
         Argentum\Providers\RouteServiceProvider::class,
         Argentum\Providers\SpacelessBladeDirectiveProvider::class,
-        Argentum\Providers\AssetsServiceProvider::class
+        Argentum\Providers\AssetsServiceProvider::class,
     ],
     'aliases' => [
         'App' => Illuminate\Support\Facades\App::class,

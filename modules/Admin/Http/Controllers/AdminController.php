@@ -2,62 +2,39 @@
 
 namespace Modules\Admin\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Argentum\Assets\AssetFactory;
+use Argentum\Assets\AssetManager;
+use Argentum\Assets\AssetWriter;
 use Illuminate\Http\Response;
 use Illuminate\Routing\Controller;
 
 class AdminController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     * @return Response
-     */
-    public function index()
+    public function layout()
     {
-        return view('admin::index');
-    }
+        $factory = app(AssetFactory::class);
+        $manager = app(AssetManager::class);
+        $manager->addAssets([
+            $factory->file('css', 'admin::build/css/app.css')->dependsOn(
+                $factory->file('css', 'admin::build/css/vendor.css')
+                    ->dependsOn('font', 'admin::fonts/glyphicons-halflings-regular.eot')
+                    ->dependsOn('font', 'admin::fonts/glyphicons-halflings-regular.ttf')
+                    ->dependsOn('font', 'admin::fonts/glyphicons-halflings-regular.svg')
+                    ->dependsOn('font', 'admin::fonts/glyphicons-halflings-regular.woff')
+                    ->dependsOn('font', 'admin::fonts/FontAwesome.otf')
+                    ->dependsOn('font', 'admin::fonts/fontawesome-webfont.eot')
+                    ->dependsOn('font', 'admin::fonts/fontawesome-webfont.ttf')
+                    ->dependsOn('font', 'admin::fonts/fontawesome-webfont.svg')
+                    ->dependsOn('font', 'admin::fonts/fontawesome-webfont.woff')
+            ),
+            $factory->file('js', 'admin::build/js/app.js')
+        ]);
+        $writer = app(AssetWriter::class);
+        $writer->writeManagerAssets($manager);
 
-    /**
-     * Show the form for creating a new resource.
-     * @return Response
-     */
-    public function create()
-    {
-        return view('admin::create');
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function store(Request $request)
-    {
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     * @return Response
-     */
-    public function edit()
-    {
-        return view('admin::edit');
-    }
-
-    /**
-     * Update the specified resource in storage.
-     * @param  Request $request
-     * @return Response
-     */
-    public function update(Request $request)
-    {
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     * @return Response
-     */
-    public function destroy()
-    {
+        return view('admin::layout', [
+            'styles' => $manager->styles(),
+            'scripts' => $manager->scripts(),
+        ]);
     }
 }

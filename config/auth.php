@@ -5,10 +5,6 @@ return [
         'guard' => 'web',
         'passwords' => 'users',
     ],
-
-    /*
-    | Supported: "session", "token"
-    */
     'guards' => [
         'web' => [
             'driver' => 'session',
@@ -19,11 +15,10 @@ return [
             'provider' => 'users',
         ],
     ],
-
     'providers' => [
         'users' => [
             'driver' => 'eloquent',
-            'model' => App\Model\User::class,
+            'model' => Argentum\Model\User::class,
         ],
     ],
     'passwords' => [

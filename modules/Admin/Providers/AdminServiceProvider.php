@@ -2,6 +2,7 @@
 
 namespace Modules\Admin\Providers;
 
+use Argentum\Assets\AssetFactory;
 use Illuminate\Support\ServiceProvider;
 
 class AdminServiceProvider extends ServiceProvider
@@ -32,7 +33,7 @@ class AdminServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        app(AssetFactory::class)->setNamespace('admin', __DIR__ . '/../resources/assets');
     }
 
     /**
@@ -59,7 +60,7 @@ class AdminServiceProvider extends ServiceProvider
     {
         $viewPath = base_path('resources/views/modules/admin');
 
-        $sourcePath = __DIR__.'/../';
+        $sourcePath = __DIR__.'/../resources/views';
 
         $this->publishes([
             $sourcePath => $viewPath

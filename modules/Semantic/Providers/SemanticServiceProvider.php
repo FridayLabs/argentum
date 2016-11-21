@@ -24,9 +24,7 @@ class SemanticServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerTranslations();
         $this->registerConfig();
-        $this->registerViews();
         $this->registerNodes();
     }
 
@@ -60,42 +58,6 @@ class SemanticServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../Config/config.php', 'semantic'
         );
-    }
-
-    /**
-     * Register views.
-     *
-     * @return void
-     */
-    public function registerViews()
-    {
-        $viewPath = base_path('resources/views/modules/semantic');
-
-        $sourcePath = __DIR__.'/../';
-
-        $this->publishes([
-            $sourcePath => $viewPath
-        ]);
-
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/semantic';
-        }, \Config::get('view.paths')), [$sourcePath]), 'semantic');
-    }
-
-    /**
-     * Register translations.
-     *
-     * @return void
-     */
-    public function registerTranslations()
-    {
-        $langPath = base_path('resources/lang/modules/semantic');
-
-        if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'semantic');
-        } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../', 'semantic');
-        }
     }
 
     /**

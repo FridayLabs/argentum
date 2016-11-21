@@ -7,6 +7,15 @@
             "email": "alistar.neron@gmail.com"
         }
     ],
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
+    "require": {
+
+    },
     "autoload": {
         "psr-4": {
             "Modules\\Admin\\": ""

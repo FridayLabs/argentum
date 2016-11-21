@@ -24,7 +24,6 @@ class TypographyServiceProvider extends ServiceProvider
     {
         $this->registerTranslations();
         $this->registerConfig();
-        $this->registerViews();
         $this->registerNodes();
     }
 
@@ -56,26 +55,6 @@ class TypographyServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__.'/../Config/config.php', 'typography'
         );
-    }
-
-    /**
-     * Register views.
-     *
-     * @return void
-     */
-    public function registerViews()
-    {
-        $viewPath = base_path('resources/views/modules/typography');
-
-        $sourcePath = __DIR__.'/../';
-
-        $this->publishes([
-            $sourcePath => $viewPath
-        ]);
-
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/typography';
-        }, \Config::get('view.paths')), [$sourcePath]), 'typography');
     }
 
     /**

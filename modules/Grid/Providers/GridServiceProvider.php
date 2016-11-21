@@ -24,9 +24,7 @@ class GridServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->registerTranslations();
         $this->registerConfig();
-        $this->registerViews();
         $this->registerNodes();
     }
 
@@ -60,42 +58,6 @@ class GridServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(
             __DIR__ . '/../Config/config.php', 'grid'
         );
-    }
-
-    /**
-     * Register views.
-     *
-     * @return void
-     */
-    public function registerViews()
-    {
-        $viewPath = base_path('resources/views/modules/grid');
-
-        $sourcePath = __DIR__ . '/../';
-
-        $this->publishes([
-            $sourcePath => $viewPath
-        ]);
-
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/grid';
-        }, \Config::get('view.paths')), [$sourcePath]), 'grid');
-    }
-
-    /**
-     * Register translations.
-     *
-     * @return void
-     */
-    public function registerTranslations()
-    {
-        $langPath = base_path('resources/lang/modules/grid');
-
-        if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'grid');
-        } else {
-            $this->loadTranslationsFrom(__DIR__ . '/../', 'grid');
-        }
     }
 
     /**

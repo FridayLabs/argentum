@@ -46,13 +46,15 @@
                     this.shake();
                     return;
                 }
-                this.callLogin()
-                        .then((response) => this.getAccount({id: 'me'}))
-                        .then((response) => this.$router.push(this.redirect))
-                        .catch(() => {
-                            this.$validator.errorBag.add('email', 'User not found');
-                            this.shake();
-                        })
+                this.$auth.login({
+                    params: {email: this.email, password: this.password},
+                    error: function () {
+                        this.$validator.errorBag.add('email', 'User not found');
+                        this.shake();
+                    },
+                    rememberMe: true,
+                    redirect: this.redirect,
+                });
             },
             shake: function() {
                 this.shakeAnimation = true;
@@ -61,12 +63,6 @@
                     self.shakeAnimation = false;
                 }, 1000);
             },
-            getAccount(params) {
-                return this.$store.dispatch('getAccount', params);
-            },
-            callLogin() {
-                return this.$store.dispatch('login', {email: this.email, password: this.password});
-            }
         }
     }
 </script>

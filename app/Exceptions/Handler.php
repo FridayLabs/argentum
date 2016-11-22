@@ -5,6 +5,7 @@ namespace Argentum\Exceptions;
 use Exception;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Tymon\JWTAuth\Exceptions\JWTException;
 
 class Handler extends ExceptionHandler
 {
@@ -44,6 +45,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
+        if ($exception instanceof JWTException && $request->expectsJson()) {
+            return response([
+                'status' => 'error',
+                'code' => $exception->getStatusCode(),
+                'message' => $exception->getMessage(),
+            ], $exception->getStatusCode());
+        }
         return parent::render($request, $exception);
     }
 

@@ -37,7 +37,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
 
         Nwidart\Modules\LaravelModulesServiceProvider::class,
-        Tymon\JWTAuth\Providers\JWTAuthServiceProvider::class,
+        Tymon\JWTAuth\Providers\LaravelServiceProvider::class,
 
         Argentum\Providers\AppServiceProvider::class,
         Argentum\Providers\AuthServiceProvider::class,

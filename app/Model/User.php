@@ -4,8 +4,9 @@ namespace Argentum\Model;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Tymon\JWTAuth\Contracts\JWTSubject as AuthenticatableUserContract;
 
-class User extends Authenticatable
+class User extends Authenticatable implements AuthenticatableUserContract
 {
     use Notifiable;
 
@@ -30,5 +31,13 @@ class User extends Authenticatable
     public function projects()
     {
         return $this->belongsToMany(Project::class);
+    }
+    public function getJWTIdentifier()
+    {
+        return $this->getKey();
+    }
+    public function getJWTCustomClaims()
+    {
+        return [];
     }
 }

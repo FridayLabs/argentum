@@ -19,9 +19,9 @@ return [
     'required_claims' => ['iss', 'iat', 'exp', 'nbf', 'sub', 'jti'],
     'blacklist_enabled' => env('JWT_BLACKLIST_ENABLED', true),
     'providers' => [
-        'user' => 'Tymon\JWTAuth\Providers\User\EloquentUserAdapter',
-        'jwt' => 'Tymon\JWTAuth\Providers\JWT\NamshiAdapter',
-        'auth' => 'Tymon\JWTAuth\Providers\Auth\IlluminateAuthAdapter',
-        'storage' => 'Tymon\JWTAuth\Providers\Storage\IlluminateCacheAdapter',
+        'user' => 'Tymon\JWTAuth\Providers\User\Eloquent',
+        'jwt' => 'Tymon\JWTAuth\Providers\JWT\Namshi',
+        'auth' => 'Tymon\JWTAuth\Providers\Auth\Illuminate',
+        'storage' => 'Tymon\JWTAuth\Providers\Storage\Illuminate',
     ],
 ];

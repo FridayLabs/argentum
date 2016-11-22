@@ -2,69 +2,53 @@
 
 namespace Argentum\Http\Controllers\Api;
 
-use Illuminate\Foundation\Validation\ValidatesRequests;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Illuminate\Support\Facades\Auth;
-use Tymon\JWTAuth\Exceptions\JWTException;
-use Tymon\JWTAuth\Exceptions\TokenExpiredException;
-use Tymon\JWTAuth\Exceptions\TokenInvalidException;
-use Tymon\JWTAuth\JWTAuth;
+use Tymon\JWTAuth\Facades\JWTAuth;
+use Illuminate\Http\Request;
+use Argentum\Http\Controllers\Controller;
 
 class AuthController extends Controller
 {
-    use ValidatesRequests;
-
-    /**
-     * @var \Tymon\JWTAuth\JWTAuth
-     */
-    protected $jwt;
-
-    public function __construct(JWTAuth $jwt)
-    {
-        $this->jwt = $jwt;
-    }
-
     public function login(Request $request)
     {
         $this->validate($request, [
-            'email' => 'required|email|max:255',
-            'password' => 'required',
+            'email' => 'required|email',
+            'password' => 'required'
         ]);
-        try {
-            if (!$token = $this->jwt->attempt($request->only('email', 'password'))) {
-                return response()->json(['error' => 'user_not_found'], 404);
-            }
-        } catch (TokenExpiredException $e) {
-            return response()->json(['error' => 'token_expired'], 500);
-        } catch (TokenInvalidException $e) {
-            return response()->json(['error' => 'token_invalid'], 400);
-        } catch (JWTException $e) {
-            return response()->json(['error' => 'token_absent', 'message' => $e->getMessage()], 500);
+        $credentials = $request->only('email', 'password');
+        if (!$token = JWTAuth::attempt($credentials)) {
+            return response([
+                'status' => 'error',
+                'error' => 'invalid.credentials',
+                'msg' => 'Invalid Credentials.'
+            ], 400);
         }
-
-        $this->updateUserToken($token);
-        return response()->json(compact('token'));
+        return response([
+            'status' => 'success'
+        ])->header('Authorization', $token);
     }
 
-    public function refreshToken(Request $request)
+    public function user()
     {
-        $this->validate($request, ['token' => 'required']);
-        try {
-            $this->jwt->setToken($request->get('token'));
-            $token = $this->jwt->refresh();
-
-            $this->updateUserToken($token);
-        } catch (TokenInvalidException $e) {
-            return response()->json(['error' => 'token_invalid'], 400);
-        }
-        return response()->json(compact('token'));
+        return response([
+            'status' => 'success',
+            'data' => Auth::user()
+        ]);
     }
 
-    protected function updateUserToken($token)
+    public function logout()
     {
-        $user = Auth::user();
-        $user->api_token = $token;
-        $user->save();
+        JWTAuth::invalidate();
+        return response([
+            'status' => 'success',
+            'msg' => 'Logged out Successfully.'
+        ], 200);
+    }
+
+    public function refresh()
+    {
+        return response([
+            'status' => 'success'
+        ]);
     }
 }

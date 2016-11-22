@@ -5,7 +5,7 @@ namespace Argentum\Providers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Argentum\Http\Controllers\Controller;
+use Argentum\Http\Controllers\PageController;
 use Argentum\Model\Project;
 
 class RouteServiceProvider extends ServiceProvider
@@ -50,7 +50,7 @@ class RouteServiceProvider extends ServiceProvider
                 Route::get('/' . $alias, [
                     'as' => $page->alias,
                     function () use ($request, $page) {
-                        $controller = app()->make(Controller::class);
+                        $controller = app()->make(PageController::class);
 
                         return $controller->displayPage($page);
                     },

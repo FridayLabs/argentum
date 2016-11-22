@@ -15,7 +15,7 @@
         "mrclay/minify": "^2.3",
         "mishal/iless": "^2.2",
         "bower-asset/normalize.css": "^5.0",
-        "tymon/jwt-auth": "0.5.*"
+        "tymon/jwt-auth": "^1.0@dev"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

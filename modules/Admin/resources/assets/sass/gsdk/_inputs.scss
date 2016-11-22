@@ -1,0 +1,109 @@
+label {
+  font-weight: normal;
+}
+
+textarea,
+textarea.form-control,
+input.form-control,
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+[type=text].form-control,
+[type=password].form-control,
+[type=email].form-control,
+[type=tel].form-control,
+[contenteditable].form-control {
+  padding: 0;
+  border: none;
+  border-radius: 0;
+  -webkit-appearance: none;
+  @include box-shadow(inset 0 -1px 0 #ddd);
+  font-size: 16px;
+
+  &:focus {
+    @include box-shadow(inset 0 -2px 0 $primary-color);
+  }
+
+  &[disabled],
+  &[readonly] {
+    @include box-shadow(none);
+    border-bottom: 1px dotted #ddd;
+  }
+
+  &.input {
+    &-sm {
+      font-size: $font-size-small;
+    }
+
+    &-lg {
+      font-size: $font-size-large;
+    }
+  }
+}
+
+
+.has-warning {
+  input:not([type=checkbox]),
+  .form-control,
+  input.form-control[readonly],
+  input[type=text][readonly],
+  [type=text].form-control[readonly],
+  input:not([type=checkbox]),
+  .form-control {
+    border-bottom: none;
+    color: $warning-color;
+    @include box-shadow(inset 0 -1px 0 $warning-color);
+    &:focus{
+        @include box-shadow(inset 0 -2px 0 $warning-color);
+    }
+  }
+}
+
+.has-error {
+  input:not([type=checkbox]),
+  .form-control,
+  input.form-control[readonly],
+  input[type=text][readonly],
+  [type=text].form-control[readonly],
+  input:not([type=checkbox]),
+  .form-control {
+    border-bottom: none;
+    color: $danger-color;
+    @include box-shadow(inset 0 -1px 0 $danger-color);
+    &:focus{
+        @include box-shadow(inset 0 -2px 0 $danger-color);
+    }
+  }
+}
+
+.has-success {
+  input:not([type=checkbox]),
+  .form-control,
+  input.form-control[readonly],
+  input[type=text][readonly],
+  [type=text].form-control[readonly],
+  input:not([type=checkbox]),
+  .form-control {
+    border-bottom: none;
+    color: $success-color;
+    @include box-shadow(inset 0 -1px 0 $success-color);
+    &:focus {
+      @include box-shadow(inset 0 -2px 0 $success-color);
+    }
+  }
+}
+
+// Remove the Bootstrap feedback styles for input addons
+.input-group-addon {
+    color: $dark-gray;
+    border-color: transparent;
+    background-color: transparent;
+}
+
+.form-group-lg {
+  select,
+  select.form-control {
+    line-height: 1.5;
+  }
+}

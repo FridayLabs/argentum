@@ -15,7 +15,8 @@ class UsersSeeder extends Seeder
         DB::table('users')->delete();
         factory(Argentum\Model\User::class, 1)->create([
             'email' => 'admin@admin.com',
-            'password' => bcrypt('admin')
+            'password' => bcrypt('admin'),
+            'api_token' => str_random(32)
         ]);
     }
 }

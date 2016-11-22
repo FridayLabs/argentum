@@ -10,26 +10,41 @@ Vue.http.options.xhr = {withCredentials: true}
 Vue.http.options.emulateJSON = true
 
 Vue.http.interceptors.push((request, next) => {
-  const token = 'Bearer ' + window.localStorage.getItem('token') || ''
-  request.headers = request.headers || {}
-  request.headers.set('Authorization', token)
-  next((response) => {
-      return response;
-  })
+    const token = 'Bearer ' + window.localStorage.getItem('token') || ''
+    request.headers = request.headers || {}
+    request.headers.set('Authorization', token)
+    next((response) => {
+        if (response.status == 401 && response.body.error == 'token_expired') {
+            Auth.refreshToken({token: window.localStorage.getItem('token') || ''}).then((resp) => {
+                window.localStorage.setItem('token', resp.body.token)
+            });
+            return next((response) => {
+                return response;
+            })
+        } else {
+            return response
+        }
+    })
 })
-Vue.http.interceptors.push((request, next) => {
-  request.headers.set('X-CSRF-TOKEN', document.getElementsByName('csrf-token')[0].content);
 
-  next();
+Vue.http.interceptors.push((request, next) => {
+    request.headers.set('X-CSRF-TOKEN', document.getElementsByName('csrf-token')[0].content);
+
+    next();
 })
+
 
 export const Account = Vue.resource(API_ROOT + '/users{/id}')
 
 export const Project = Vue.resource(API_ROOT + '/project{/id}')
 
 export const Auth = Vue.resource(API_ROOT + '/auth', {}, {
-  login: {
-    method: 'post',
-    url: '/login'
-  }
+    login: {
+        method: 'post',
+        url: '/api/auth/login'
+    },
+    refreshToken: {
+        method: 'post',
+        url: '/api/auth/refreshToken'
+    },
 })

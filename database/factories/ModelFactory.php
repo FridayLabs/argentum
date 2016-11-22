@@ -4,6 +4,7 @@ $factory->define(Argentum\Model\User::class, function (Faker\Generator $faker) {
     return [
         'name'  => $faker->name,
         'email' => $faker->email,
+        'api_token' => str_random(32)
     ];
 });
 

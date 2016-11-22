@@ -14,7 +14,8 @@
         "nwidart/laravel-modules": "^1.14",
         "mrclay/minify": "^2.3",
         "mishal/iless": "^2.2",
-        "bower-asset/normalize.css": "^5.0"
+        "bower-asset/normalize.css": "^5.0",
+        "tymon/jwt-auth": "0.5.*"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
